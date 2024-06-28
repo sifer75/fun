@@ -1,12 +1,10 @@
 import { Button } from "@/components/ui/button";
-import { ArchiveRestore } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuGroup,
   DropdownMenuItem,
   DropdownMenuSeparator,
-  DropdownMenuShortcut,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import {
@@ -19,11 +17,12 @@ import {
 } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { ArrowUpRight } from "lucide-react";
-import { PencilLine } from "lucide-react";
+import DialogCardEdit from "./DialogCardEdit";
+import DialogCardDelete from "./DialogCardDelete";
 
 function KanbanCard() {
   return (
-    <div className="flex flex-wrap w-full p-4 gap-10 bg-red-500 overflow-y-auto grid-cols-3 px-8">
+    <div className="flex flex-wrap w-full p-4 gap-10 overflow-y-auto grid-cols-3 px-8">
       {[...Array(8)].map((_, index) => (
         <Card key={index} className="w-[350px]">
           <CardHeader>
@@ -37,16 +36,15 @@ function KanbanCard() {
                 </DropdownMenuTrigger>
                 <DropdownMenuContent className="w-56">
                   <DropdownMenuGroup>
-                    <DropdownMenuItem>
-                      <PencilLine className="w-4 h-4 mr-2" />
-                      <span>Éditer</span>
-                      <DropdownMenuShortcut>⌘P</DropdownMenuShortcut>
-                    </DropdownMenuItem>
+                    <DialogCardEdit
+                      dialogTitle={"Créer un kanban"}
+                      dialogDescription={"Ajouter un nouveau kanban."}
+                      labelName={"Nom du kanban"}
+                      labelDescription={"Décrire le kanban"}
+                    />
                     <DropdownMenuSeparator />
-                    <DropdownMenuItem>
-                      <ArchiveRestore className="mr-2 h-4 w-4" />
-                      <span>Archiver</span>
-                      <DropdownMenuShortcut>⌘B</DropdownMenuShortcut>
+                    <DropdownMenuItem asChild>
+                      <DialogCardDelete dialogTitle={"Supprimer le kanban"} label={"Souhaitez-vous supprimer (nom du kanban) ?"} />
                     </DropdownMenuItem>
                   </DropdownMenuGroup>
                 </DropdownMenuContent>
