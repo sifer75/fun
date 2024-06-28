@@ -15,7 +15,7 @@ function Header() {
         <p>Workspaces</p>
         <p>Réglage</p>
       </div>
-      <div className="py-4 px-8">
+      <div className="py-6 px-8">
         <div className="border-b pb-4">
           <div className="w-full flex justify-between ">
             <h1 className="text-4xl font-medium mb-2">Mes workspaces</h1>
