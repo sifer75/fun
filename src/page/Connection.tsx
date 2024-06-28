@@ -1,8 +1,10 @@
 import { Button } from '@/components/ui/button'
 import google from "../../src/assets/google.svg";
 import github from "../../src/assets/github.svg";
+import { useNavigate } from 'react-router-dom';
 
 function Connection() {
+  const navigate = useNavigate()
   return (
     <div className="w-screen h-screen flex">
     <div className="w-1/2 h-full bg-black"></div>
@@ -16,7 +18,7 @@ function Connection() {
             Choisissez votre méthode d’authentification
           </p>
         </div>
-        <Button className="w-full bg-white border text-back text-base border-gray-300 rounded-md">
+        <Button onClick={() => navigate("/workspace")} className="w-full bg-white border text-back text-base border-gray-300 rounded-md">
           <img className="h-6 w-6 mr-2" src={google} alt="google"></img> Gmail
         </Button>
         <div className="flex justify-around w-full">
