@@ -1,23 +1,9 @@
 import { Input } from "../ui/input";
-import {
-  Menubar,
-  MenubarCheckboxItem,
-  MenubarContent,
-  MenubarItem,
-  MenubarMenu,
-  MenubarRadioGroup,
-  MenubarRadioItem,
-  MenubarSeparator,
-  MenubarShortcut,
-  MenubarSub,
-  MenubarSubContent,
-  MenubarSubTrigger,
-  MenubarTrigger,
-} from "@/components/ui/menubar";
+import { Menubar, MenubarMenu, MenubarTrigger } from "@/components/ui/menubar";
 
-function Searchbar() {
+function KanbanSearchbar() {
   return (
-    <div className="mx-8 flex justify-between">
+    <div className="mx-8 mb-6 flex justify-between">
       <Menubar>
         <MenubarMenu>
           <MenubarTrigger>Tout</MenubarTrigger>
@@ -37,4 +23,4 @@ function Searchbar() {
   );
 }
 
-export default Searchbar;
+export default KanbanSearchbar;

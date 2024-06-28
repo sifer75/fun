@@ -2,12 +2,13 @@ import { Button } from '@/components/ui/button'
 import google from "../../src/assets/google.svg";
 import github from "../../src/assets/github.svg";
 import { useNavigate } from 'react-router-dom';
+import catchana from "../assets/catchana.svg"
 
 function Connection() {
   const navigate = useNavigate()
   return (
     <div className="w-screen h-screen flex">
-    <div className="w-1/2 h-full bg-black"></div>
+    <img src={catchana} className="w-1/2 h-full object-cover"></img>
     <div className="w-1/2 h-full bg-white flex items-center justify-center flex-col">
       <div className="h-1/3 w-1/2 bg-white flex items-center flex-col justify-around">
         <div className="flex-col">
