@@ -1,9 +1,11 @@
-import { Button } from "@/components/ui/button"
+import { Route, Routes } from "react-router-dom";
+import Connection from "./page/Connection";
 
-export default function Home() {
+export default function App() {
   return (
-    <div>
-      <Button>Click me</Button>
-    </div>
-  )
+    <Routes>
+      <Route index element={< Connection />} />
+    </Routes>
+    
+  );
 }
