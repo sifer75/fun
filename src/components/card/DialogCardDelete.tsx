@@ -10,17 +10,29 @@ import {
 import { Label } from "@/components/ui/label";
 import { Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { ToastAction } from "@/components/ui/toast";
+import { useToast } from "@/components/ui/use-toast";
+import React from "react";
 
 interface DialogCardDeleteProps {
   dialogTitle: string;
   label: string;
 }
 
-function DialogCardDelete({ dialogTitle, label }: DialogCardDeleteProps) {
+const DialogCardDelete = React.forwardRef<HTMLButtonElement, DialogCardDeleteProps>(({ dialogTitle, label }, ref) => {
+  const { toast } = useToast();
+
+  const handleDelete = () => {
+    toast({
+      title: "Scheduled: Catch up ",
+      description: "Friday, February 10, 2023 at 5:57 PM",
+      action: <ToastAction altText="Goto schedule to undo">Undo</ToastAction>,
+    });
+  };
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button
+        <Button ref={ref}
           variant="ghost"
           className="flex items-center justify-start w-full px-2 py-1.5 rounded-sm h-8"
         >
@@ -37,16 +49,17 @@ function DialogCardDelete({ dialogTitle, label }: DialogCardDeleteProps) {
           <div className="flex flex-col items-start gap-4">
             <Label htmlFor="username" className="text-right">
               {label}
-              
             </Label>
           </div>
         </div>
         <DialogFooter>
-          <Button variant="destructive">Supprimer</Button>
+          <Button variant="destructive" onClick={handleDelete}>
+            Supprimer
+          </Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>
   );
-}
+})
 
 export default DialogCardDelete;
