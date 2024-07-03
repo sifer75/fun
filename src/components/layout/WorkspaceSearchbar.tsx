@@ -3,7 +3,7 @@ import { Input } from "../ui/input";
 
 function WorkspaceSearchbar() {
   return (
-    <div className="mx-8 mb-6 flex justify-between">
+    <div className="py-6 flex justify-between">
       <Menubar>
         <MenubarMenu>
           <MenubarTrigger>Tout</MenubarTrigger>

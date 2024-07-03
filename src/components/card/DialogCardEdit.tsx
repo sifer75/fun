@@ -14,15 +14,53 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { DialogCardProps } from "@/lib/dialogCard.utils";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { updateWorkspace } from "@/lib/workspace.request";
+import { useState } from "react";
 
 function DialogCardEdit({
   dialogTitle,
   dialogDescription,
   labelName,
   labelDescription,
+  id,
+  onClose,
 }: DialogCardProps) {
+  const queryClient = useQueryClient();
+
+  const [title, setTitle] = useState<string>(labelName);
+  const [description, setDescription] = useState<string>(labelDescription);
+  const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
+
+  const mutation = useMutation({
+    mutationFn: (data: {
+      title: string;
+      description: string;
+      id: number | undefined;
+    }) =>
+      updateWorkspace({ id, title: data.title, description: data.description }),
+    onError: (error) => {
+      console.log(error);
+    },
+    onSuccess: async () => {
+      setIsDialogOpen(false);
+      onClose();
+      queryClient.invalidateQueries({ queryKey: ["workspace"] });
+    },
+  });
+
+  const handleChangeTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setTitle(e.target.value);
+  };
+
+  const handleChangeDescription = (
+    e: React.ChangeEvent<HTMLTextAreaElement>
+  ) => {
+    setDescription(e.target.value);
+  };
+
   return (
-    <Dialog>
+    <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
       <DialogTrigger asChild>
         <Button
           variant="ghost"
@@ -46,18 +84,38 @@ function DialogCardEdit({
             <Input
               id="name"
               defaultValue={labelName}
+              placeholder={"Nom du projet"}
               className="col-span-3 text-gray-500"
+              onChange={(e) => handleChangeTitle(e)}
             />
           </div>
           <div className="flex flex-col items-start gap-4">
             <Label htmlFor="username" className="text-right">
               Description
             </Label>
-            <Textarea placeholder={labelDescription} className="col-span-3" />
+            <Textarea
+              defaultValue={labelDescription}
+              placeholder={"Description du projet"}
+              className="col-span-3"
+              onChange={(e) => {
+                handleChangeDescription(e);
+              }}
+            />
           </div>
         </div>
         <DialogFooter>
-          <Button type="submit">Ajouter</Button>
+          <Button
+            type="submit"
+            onClick={() => {
+              mutation.mutate({
+                id: id,
+                title: title,
+                description: description,
+              });
+            }}
+          >
+            Ajouter
+          </Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>

@@ -12,23 +12,42 @@ import { Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ToastAction } from "@/components/ui/toast";
 import { useToast } from "@/components/ui/use-toast";
-import React from "react";
+import React, { useState } from "react";
 import { DialogCardDeleteProps } from "@/lib/dialogCard.utils";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { deleteWorkspace } from "@/lib/workspace.request";
 
-const DialogCardDelete = React.forwardRef<HTMLButtonElement, DialogCardDeleteProps>(({ dialogTitle, label }, ref) => {
+const DialogCardDelete = React.forwardRef<
+  HTMLButtonElement,
+  DialogCardDeleteProps
+>(({ dialogTitle, label, id, onClose }, ref) => {
   const { toast } = useToast();
 
-  const handleDelete = () => {
-    toast({
-      title: "Scheduled: Catch up ",
-      description: "Friday, February 10, 2023 at 5:57 PM",
-      action: <ToastAction altText="Goto schedule to undo">Undo</ToastAction>,
-    });
-  };
+  const queryClient = useQueryClient();
+  const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
+
+  const mutation = useMutation({
+    mutationFn: (id: number) => deleteWorkspace(id),
+    onError: (error) => {
+      console.log(error);
+    },
+    onSuccess: async () => {
+      toast({
+        title: "Scheduled: Catch up ",
+        description: "Friday, February 10, 2023 at 5:57 PM",
+        action: <ToastAction altText="Goto schedule to undo">Undo</ToastAction>,
+      });
+      onClose();
+      setIsDialogOpen(false);
+      queryClient.invalidateQueries({ queryKey: ["workspace"] });
+    },
+  });
+
   return (
-    <Dialog>
+    <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
       <DialogTrigger asChild>
-        <Button ref={ref}
+        <Button
+          ref={ref}
           variant="ghost"
           className="flex items-center justify-start w-full px-2 py-1.5 rounded-sm h-8"
         >
@@ -49,13 +68,18 @@ const DialogCardDelete = React.forwardRef<HTMLButtonElement, DialogCardDeletePro
           </div>
         </div>
         <DialogFooter>
-          <Button variant="destructive" onClick={handleDelete}>
+          <Button
+            variant="destructive"
+            onClick={() => {
+              mutation.mutate(id);
+            }}
+          >
             Supprimer
           </Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>
   );
-})
+});
 
 export default DialogCardDelete;

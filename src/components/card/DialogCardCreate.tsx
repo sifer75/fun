@@ -27,14 +27,16 @@ function DialogCardCreate({
 
   const [title, setTitle] = useState<string>("");
   const [description, setDescription] = useState<string>("");
+  const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
+
   const mutation = useMutation({
-    mutationFn: (data: WorkspaceProps) =>
-      createWorkspace(data),
+    mutationFn: (data: WorkspaceProps) => createWorkspace(data),
     onError: (error) => {
       console.log(error);
     },
     onSuccess: async () => {
       queryClient.invalidateQueries({ queryKey: ["workspace"] });
+      setIsDialogOpen(false)
     },
   });
 
@@ -49,7 +51,7 @@ function DialogCardCreate({
   };
 
   return (
-    <Dialog>
+    <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
       <DialogTrigger asChild>
         <Button>
           <span>Création du workspace</span>
