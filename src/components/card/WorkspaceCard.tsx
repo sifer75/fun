@@ -36,8 +36,8 @@ function WorkspaceCard() {
                   <DropdownMenuGroup>
                     <DropdownMenuItem asChild>
                       <DialogCardEdit
-                        dialogTitle={"Créer un projet"}
-                        dialogDescription={"Ajouter un nouveau projet."}
+                        dialogTitle={"Modifier le nom du projet"}
+                        dialogDescription={"Modifier la description du projet"}
                         labelName={"Nom du projet"}
                         labelDescription={"Décrire le projet"}
                       />

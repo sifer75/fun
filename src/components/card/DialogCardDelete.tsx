@@ -13,11 +13,7 @@ import { Button } from "@/components/ui/button";
 import { ToastAction } from "@/components/ui/toast";
 import { useToast } from "@/components/ui/use-toast";
 import React from "react";
-
-interface DialogCardDeleteProps {
-  dialogTitle: string;
-  label: string;
-}
+import { DialogCardDeleteProps } from "@/lib/dialogCard.utils";
 
 const DialogCardDelete = React.forwardRef<HTMLButtonElement, DialogCardDeleteProps>(({ dialogTitle, label }, ref) => {
   const { toast } = useToast();

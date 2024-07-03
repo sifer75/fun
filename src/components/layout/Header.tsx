@@ -1,5 +1,5 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Button } from "../ui/button";
+import DialogCardCreate from "../card/DialogCardCreate";
 
 function Header() {
   return (
@@ -18,8 +18,13 @@ function Header() {
       <div className="py-6 px-8">
         <div className="border-b pb-4">
           <div className="w-full flex justify-between ">
-            <h1 className="text-4xl font-medium mb-2">Mes workspaces</h1>
-            <Button className="text-gray-100">Créer un workspace</Button>
+            <h1 className="text-4xl font-medium mb-2">Mes Projets</h1>
+            <DialogCardCreate
+              dialogTitle={"Créer un projet"}
+              dialogDescription={"Ajouter un nouveau projet"}
+              labelName={"Nom du projet"}
+              labelDescription={"Décrire le projet"}
+            />
           </div>
           <span className="text-gray-500 tewt-xl font-light">
             Lorem ipsum dolor sit amet consectetur.
