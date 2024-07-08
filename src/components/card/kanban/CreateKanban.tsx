@@ -1,5 +1,4 @@
 import { Button } from "@/components/ui/button";
-import { Textarea } from "@/components/ui/textarea";
 import {
   Dialog,
   DialogContent,
@@ -12,31 +11,27 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { createWorkspace } from "@/lib/workspace.request";
 import { useState } from "react";
-import { DialogCardProps } from "@/lib/dialogCard.utils";
-import { WorkspaceProps } from "@/lib/workspace.utils";
+import { KanbanProps } from "@/lib/cards.utils";
+import { createKanban } from "@/lib/kanban.request";
+import { useParams } from "react-router-dom";
 
-function DialogCardCreate({
-  dialogTitle,
-  dialogDescription,
-  labelName,
-  labelDescription,
-}: DialogCardProps) {
+function CreateKanban({ titleTypeCard }: { titleTypeCard: string }) {
   const queryClient = useQueryClient();
-
-  const [title, setTitle] = useState<string>("");
-  const [description, setDescription] = useState<string>("");
+  const { id } = useParams<{ id: string }>();
   const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
-
+  const [title, setTitle] = useState<string>("");
+  const workspaceId = Number(id);
   const mutation = useMutation({
-    mutationFn: (data: WorkspaceProps) => createWorkspace(data),
+    mutationFn: (data: KanbanProps) => createKanban(data),
     onError: (error) => {
       console.log(error);
     },
     onSuccess: async () => {
-      queryClient.invalidateQueries({ queryKey: ["workspace"] });
-      setIsDialogOpen(false)
+      queryClient.invalidateQueries({
+        queryKey: ["kanban", workspaceId],
+      });
+      setIsDialogOpen(false);
     },
   });
 
@@ -44,23 +39,21 @@ function DialogCardCreate({
     setTitle(e.target.value);
   };
 
-  const handleChangeDescription = (
-    e: React.ChangeEvent<HTMLTextAreaElement>
-  ) => {
-    setDescription(e.target.value);
-  };
-
   return (
     <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
       <DialogTrigger asChild>
         <Button>
-          <span>Création du workspace</span>
+          <span>Création du {titleTypeCard}</span>
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle className="text-3xl">{dialogTitle}</DialogTitle>
-          <DialogDescription>{dialogDescription}</DialogDescription>
+          <DialogTitle className="text-3xl">
+            Créer un {titleTypeCard}
+          </DialogTitle>
+          <DialogDescription>
+            Ajouter un nouveau {titleTypeCard}
+          </DialogDescription>
         </DialogHeader>
         <div className="grid gap-4 py-4">
           <div className="flex flex-col items-start gap-4 mb-2">
@@ -69,19 +62,9 @@ function DialogCardCreate({
             </Label>
             <Input
               id="name"
-              placeholder={labelName}
+              placeholder={`Nom du ${titleTypeCard}`}
               className="col-span-3 text-gray-500"
               onChange={(e) => handleChangeTitle(e)}
-            />
-          </div>
-          <div className="flex flex-col items-start gap-4">
-            <Label htmlFor="username" className="text-right">
-              Description
-            </Label>
-            <Textarea
-              placeholder={labelDescription}
-              className="col-span-3"
-              onChange={(e) => handleChangeDescription(e)}
             />
           </div>
         </div>
@@ -89,7 +72,7 @@ function DialogCardCreate({
           <Button
             type="submit"
             onClick={() => {
-              mutation.mutate({ title: title, description: description });
+              mutation.mutate({ title, workspaceId });
             }}
           >
             Ajouter
@@ -100,4 +83,4 @@ function DialogCardCreate({
   );
 }
 
-export default DialogCardCreate;
+export default CreateKanban;

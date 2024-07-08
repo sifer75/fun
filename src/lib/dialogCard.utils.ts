@@ -1,9 +1,8 @@
 export interface DialogCardProps {
-  dialogTitle: string;
-  dialogDescription: string;
-  labelName: string;
-  labelDescription: string;
-  id?: number;
+  titleCard: string;
+  modele: string;
+  descriptionCard?: string;
+  id: number;
   onClose: () => void;
 }
 

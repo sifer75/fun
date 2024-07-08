@@ -1,5 +1,4 @@
 import { Button } from "@/components/ui/button";
-import { DropdownMenuShortcut } from "@/components/ui/dropdown-menu";
 import { Textarea } from "@/components/ui/textarea";
 import { PencilLine } from "lucide-react";
 import {
@@ -18,33 +17,27 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { updateWorkspace } from "@/lib/workspace.request";
 import { useState } from "react";
 
-function DialogCardEdit({
-  dialogTitle,
-  dialogDescription,
-  labelName,
-  labelDescription,
+function EditWorkspace({
+  titleCard,
+  descriptionCard = "",
   id,
+  modele,
   onClose,
 }: DialogCardProps) {
   const queryClient = useQueryClient();
 
-  const [title, setTitle] = useState<string>(labelName);
-  const [description, setDescription] = useState<string>(labelDescription);
+  const [title, setTitle] = useState<string>(titleCard);
+  const [description, setDescription] = useState<string>(descriptionCard);
   const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
-
   const mutation = useMutation({
-    mutationFn: (data: {
-      title: string;
-      description: string;
-      id: number | undefined;
-    }) =>
+    mutationFn: (data: { title: string; description: string; id: number }) =>
       updateWorkspace({ id, title: data.title, description: data.description }),
     onError: (error) => {
       console.log(error);
     },
     onSuccess: async () => {
       setIsDialogOpen(false);
-      onClose();
+      if (onClose) onClose();
       queryClient.invalidateQueries({ queryKey: ["workspace"] });
     },
   });
@@ -64,17 +57,20 @@ function DialogCardEdit({
       <DialogTrigger asChild>
         <Button
           variant="ghost"
-          className="flex items-center justify-between w-full px-2 py-1.5 rounded-sm h-8"
+          className="flex items-center justify-start  px-2 py-1.5 rounded-sm h-8 w-full"
         >
           <PencilLine className="w-4 h-4 mr-2" />
-          <span>Éditer</span>
-          <DropdownMenuShortcut>⌘P</DropdownMenuShortcut>
+          Éditer
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle className="text-3xl">{dialogTitle}</DialogTitle>
-          <DialogDescription>{dialogDescription}</DialogDescription>
+          <DialogTitle className="text-3xl">
+            Modifier le nom du {modele}
+          </DialogTitle>
+          <DialogDescription>
+            Modifier la description du {modele}
+          </DialogDescription>
         </DialogHeader>
         <div className="grid gap-4 py-4">
           <div className="flex flex-col items-start gap-4 mb-2">
@@ -83,7 +79,7 @@ function DialogCardEdit({
             </Label>
             <Input
               id="name"
-              defaultValue={labelName}
+              defaultValue={titleCard}
               placeholder={"Nom du projet"}
               className="col-span-3 text-gray-500"
               onChange={(e) => handleChangeTitle(e)}
@@ -94,7 +90,7 @@ function DialogCardEdit({
               Description
             </Label>
             <Textarea
-              defaultValue={labelDescription}
+              defaultValue={descriptionCard}
               placeholder={"Description du projet"}
               className="col-span-3"
               onChange={(e) => {
@@ -122,4 +118,4 @@ function DialogCardEdit({
   );
 }
 
-export default DialogCardEdit;
+export default EditWorkspace;

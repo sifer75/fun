@@ -5,12 +5,13 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { TaskProps } from "@/lib/cards.utils";
 import { PencilLine } from "lucide-react";
 import { Trash2 } from "lucide-react";
 
-function TaskCard() {
+function TaskCard({ title, id }: TaskProps) {
   return (
-    <Card className="w-[350px] rounded-2xl">
+    <Card className="w-[300px] rounded-2xl">
       <CardHeader className="bg-red-500 rounded-t-lg h-12 flex justify-start pb-8 pt-5">
         <div className="flex justify-between items-center">
           <CardTitle className="text-xl flex items-center gap-2 h-full justify-between">

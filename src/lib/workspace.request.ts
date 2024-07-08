@@ -1,4 +1,4 @@
-import { WorkspaceProps } from "./workspace.utils";
+import { WorkspaceProps } from "./cards.utils";
 
 export const createWorkspace = async (data: WorkspaceProps) => {
   const response = await fetch("http://localhost:3333/workspace/create", {
@@ -18,7 +18,7 @@ export const getAllWorkspace = async () => {
     headers: { "Content-Type": "application/json" },
   });
   if (!response.ok) {
-    throw new Error("Erreur lors de la création du workspace");
+    throw new Error("Erreur lors de la récupération du workspace");
   }
   return response.json();
 };

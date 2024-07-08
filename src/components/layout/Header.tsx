@@ -1,7 +1,26 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import DialogCardCreate from "../card/DialogCardCreate";
+import CreateWorkspace from "../card/workspace/CreateWorkspace";
+import CreateKanban from "../card/kanban/CreateKanban";
+import CreateTask from "../card/task/CreateTask";
 
-function Header() {
+interface HeaderProps {
+  titlePage: string;
+  pageType: "workspace" | "kanban" | "task";
+  id?: number;
+}
+function Header({ titlePage, pageType }: HeaderProps) {
+  const renderCreateButton = () => {
+    switch (pageType) {
+      case "workspace":
+        return <CreateWorkspace titleTypeCard={titlePage} />;
+      case "kanban":
+        return <CreateKanban titleTypeCard={titlePage} />;
+        case 'task':
+          return <CreateTask titleTypeCard={titlePage} />
+      default:
+        return null;
+    }
+  };
   return (
     <div>
       <div className="h-20 border-b-2 border-gray-200 flex items-center gap-8">
@@ -12,19 +31,14 @@ function Header() {
           </Avatar>
           <p>Alicia Koch</p>
         </div>
-        <p>Workspaces</p>
-        <p>Réglage</p>
+        <p>{titlePage}</p>
+        <p>réglage</p>
       </div>
 
       <div className="border-b pb-4">
         <div className="w-full flex justify-between items-center pt-4">
-          <h1 className="text-4xl font-medium mb-2">Mes Projets</h1>
-          <DialogCardCreate
-            dialogTitle={"Créer un projet"}
-            dialogDescription={"Ajouter un nouveau projet"}
-            labelName={"Nom du projet"}
-            labelDescription={"Décrire le projet"}
-          />
+          <h1 className="text-4xl font-medium mb-2">Mes {titlePage}s</h1>
+          {renderCreateButton()}
         </div>
         <span className="text-gray-500 tewt-xl font-light">
           Lorem ipsum dolor sit amet consectetur.

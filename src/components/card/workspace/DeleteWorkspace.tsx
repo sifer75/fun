@@ -17,7 +17,7 @@ import { DialogCardDeleteProps } from "@/lib/dialogCard.utils";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { deleteWorkspace } from "@/lib/workspace.request";
 
-const DialogCardDelete = React.forwardRef<
+const DeleteWorkspace = React.forwardRef<
   HTMLButtonElement,
   DialogCardDeleteProps
 >(({ dialogTitle, label, id, onClose }, ref) => {
@@ -49,10 +49,10 @@ const DialogCardDelete = React.forwardRef<
         <Button
           ref={ref}
           variant="ghost"
-          className="flex items-center justify-start w-full px-2 py-1.5 rounded-sm h-8"
+          className="flex items-center justify-start px-2 py-1.5 rounded-sm h-8 w-full"
         >
           <Trash2 className="w-4 h-4 mr-2" />
-          <span>Supprimer</span>
+          Supprimer
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
@@ -82,4 +82,4 @@ const DialogCardDelete = React.forwardRef<
   );
 });
 
-export default DialogCardDelete;
+export default DeleteWorkspace;
