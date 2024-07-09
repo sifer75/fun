@@ -1,5 +1,5 @@
+import { DialogCardProps } from "@/lib/dialogCard.utils";
 import { Button } from "@/components/ui/button";
-import { Textarea } from "@/components/ui/textarea";
 import { PencilLine } from "lucide-react";
 import {
   Dialog,
@@ -10,20 +10,13 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { DialogCardProps } from "@/lib/dialogCard.utils";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { updateWorkspace } from "@/lib/workspace.request";
 import { useState } from "react";
-
-function EditWorkspace({
-  titleCard,
-  descriptionCard = "",
-  id,
-  modele,
-  onClose,
-}: DialogCardProps) {
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { updateTask } from "@/lib/task.request";
+import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+function EditTask({ titleCard, descriptionCard = "", id, modele, onClose }: DialogCardProps) {
   const queryClient = useQueryClient();
 
   const [title, setTitle] = useState<string>(titleCard);
@@ -31,14 +24,14 @@ function EditWorkspace({
   const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
   const mutation = useMutation({
     mutationFn: (data: { title: string; description: string; id: number }) =>
-      updateWorkspace({ id, title: data.title, description: data.description }),
+      updateTask({ id, title: data.title, description: data.description }),
     onError: (error) => {
       console.log(error);
     },
     onSuccess: async () => {
       setIsDialogOpen(false);
       if (onClose) onClose();
-      queryClient.invalidateQueries({ queryKey: ["workspace"] });
+      queryClient.invalidateQueries({ queryKey: ["task"] });
     },
   });
 
@@ -46,9 +39,7 @@ function EditWorkspace({
     setTitle(e.target.value);
   };
 
-  const handleChangeDescription = (
-    e: React.ChangeEvent<HTMLTextAreaElement>
-  ) => {
+  const handleChangeDescription = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setDescription(e.target.value);
   };
 
@@ -59,8 +50,7 @@ function EditWorkspace({
           variant="ghost"
           className="flex items-center justify-start  px-2 py-1.5 rounded-sm h-8 w-full"
         >
-          <PencilLine className="w-4 h-4 mr-2" />
-          Éditer
+          <PencilLine />
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
@@ -68,34 +58,30 @@ function EditWorkspace({
           <DialogTitle className="text-3xl">
             Modifier le nom du {modele}
           </DialogTitle>
-          <DialogDescription>
-            Modifier la description du {modele}
-          </DialogDescription>
+          <DialogDescription>Modifier le nom du {modele}</DialogDescription>
         </DialogHeader>
-        <div className="grid gap-4 py-4">
-          <div className="flex flex-col items-start gap-4 mb-2">
-            <Label htmlFor="name" className="text-right">
-              Nom
-            </Label>
-            <Input
-              id="name"
-              defaultValue={titleCard}
-              placeholder={"Nom du projet"}
-              className="col-span-3 text-gray-500 mb-2"
-              onChange={(e) => handleChangeTitle(e)}
-            />
-            <Label htmlFor="username" className="text-right">
+        <div className="flex flex-col items-start gap-4 mb-2 py-4">
+          <Label htmlFor="name" className="text-right">
+            Nom
+          </Label>
+          <Input
+            id="name"
+            defaultValue={titleCard}
+            placeholder={"Nom du projet"}
+            className="col-span-3 text-gray-500 mb-2"
+            onChange={(e) => handleChangeTitle(e)}
+          />
+           <Label htmlFor="username" className="text-right">
               Description
             </Label>
             <Textarea
               defaultValue={descriptionCard}
-              placeholder={"Description du projet"}
+              placeholder={"Description de la tâche"}
               className="col-span-3"
               onChange={(e) => {
                 handleChangeDescription(e);
               }}
             />
-          </div>
         </div>
         <DialogFooter>
           <Button
@@ -104,7 +90,7 @@ function EditWorkspace({
               mutation.mutate({
                 id: id,
                 title: title,
-                description: description,
+                description: description
               });
             }}
           >
@@ -116,4 +102,4 @@ function EditWorkspace({
   );
 }
 
-export default EditWorkspace;
+export default EditTask;

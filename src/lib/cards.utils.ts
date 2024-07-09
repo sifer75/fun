@@ -12,6 +12,7 @@ export interface KanbanProps {
 
 export interface TaskProps {
   title: string;
-  kanbanId: number;
-  id: number;
+  description: string;
+  kanbanId?: number;
+  id?: number;
 }

@@ -21,7 +21,7 @@ export const getAllKanban = async (workspaceId: number) => {
     }
   );
   if (!response.ok) {
-    throw new Error("Erreur lors de la récupération du kanban");
+    throw new Error("Erreur lors de la récupération des kanbans");
   }
   return response.json();
 };
@@ -48,4 +48,5 @@ export const deleteKanban = async (id: number) => {
   if (!response.ok) {
     throw new Error("Erreur lors de la suppression du kanban");
   }
+  return response.json();
 };

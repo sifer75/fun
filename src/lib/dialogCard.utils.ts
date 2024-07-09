@@ -3,12 +3,12 @@ export interface DialogCardProps {
   modele: string;
   descriptionCard?: string;
   id: number;
-  onClose: () => void;
+  onClose?: () => void;
 }
 
 export interface DialogCardDeleteProps {
   dialogTitle: string;
   label: string;
   id: number;
-  onClose: () => void;
+  onClose?: () => void;
 }

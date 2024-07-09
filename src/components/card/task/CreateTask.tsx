@@ -13,9 +13,9 @@ import { Label } from "@/components/ui/label";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import { TaskProps } from "@/lib/cards.utils";
-import { createKanban } from "@/lib/kanban.request";
 import { useParams } from "react-router-dom";
 import { Textarea } from "@/components/ui/textarea";
+import { createTask } from "@/lib/task.request";
 
 function CreateTask({ titleTypeCard }: { titleTypeCard: string }) {
   const queryClient = useQueryClient();
@@ -23,7 +23,7 @@ function CreateTask({ titleTypeCard }: { titleTypeCard: string }) {
   const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
   const [title, setTitle] = useState<string>("");
   const [description, setDescription] = useState<string>("");
-  const workspaceId = Number(id);
+  const kanbanId = Number(id);
   const mutation = useMutation({
     mutationFn: (data: TaskProps) => createTask(data),
     onError: (error) => {
@@ -31,7 +31,7 @@ function CreateTask({ titleTypeCard }: { titleTypeCard: string }) {
     },
     onSuccess: async () => {
       queryClient.invalidateQueries({
-        queryKey: ["kanban", workspaceId],
+        queryKey: ["task", kanbanId],
       });
       setIsDialogOpen(false);
     },
@@ -41,7 +41,9 @@ function CreateTask({ titleTypeCard }: { titleTypeCard: string }) {
     setTitle(e.target.value);
   };
 
-  const handleChangeDescription = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+  const handleChangeDescription = (
+    e: React.ChangeEvent<HTMLTextAreaElement>
+  ) => {
     setDescription(e.target.value);
   };
 
@@ -88,7 +90,7 @@ function CreateTask({ titleTypeCard }: { titleTypeCard: string }) {
           <Button
             type="submit"
             onClick={() => {
-              mutation.mutate({ title, description, workspaceId });
+              mutation.mutate({ title, description, kanbanId });
             }}
           >
             Ajouter
