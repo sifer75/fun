@@ -42,7 +42,6 @@ function Tasks() {
     in_progress: [],
     finished: [],
   });
-  console.log(columns, "eeee");
 
   useEffect(() => {
     if (tasks) {
@@ -58,6 +57,7 @@ function Tasks() {
       setColumns(updatedColumns);
     }
   }, [tasks]);
+
   const mutation = useMutation({
     mutationFn: (data: task) => updateTaskStatus(data),
     onError: (error) => {
@@ -126,6 +126,7 @@ function Tasks() {
                           title={task.title}
                           description={task.description}
                           id={task.id}
+                          color={"bg-fontBlue"}
                         />
                       </div>
                     )}
@@ -162,6 +163,7 @@ function Tasks() {
                           title={task.title}
                           description={task.description}
                           id={task.id}
+                          color={"bg-fontYellow"}
                         />
                       </div>
                     )}
@@ -198,6 +200,7 @@ function Tasks() {
                           title={task.title}
                           description={task.description}
                           id={task.id}
+                          color={"bg-fontGreen"}
                         />
                       </div>
                     )}

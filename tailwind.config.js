@@ -2,10 +2,10 @@
 module.exports = {
   darkMode: ["class"],
   content: [
-    './pages/**/*.{ts,tsx}',
-    './components/**/*.{ts,tsx}',
-    './app/**/*.{ts,tsx}',
-    './src/**/*.{ts,tsx}',
+    "./pages/**/*.{ts,tsx}",
+    "./components/**/*.{ts,tsx}",
+    "./app/**/*.{ts,tsx}",
+    "./src/**/*.{ts,tsx}",
   ],
   prefix: "",
   theme: {
@@ -17,7 +17,12 @@ module.exports = {
       },
     },
     extend: {
-      color: {grayBasic: "text-gray-400"},
+      colors: {
+        grayBasic: "text-gray-400",
+        fontBlue: "#E1F1FF",
+        fontYellow: "#FFE8AF",
+        fontGreen: "#CCF1D6",
+      },
       keyframes: {
         "accordion-down": {
           from: { height: "0" },
@@ -35,4 +40,4 @@ module.exports = {
     },
   },
   plugins: [require("tailwindcss-animate")],
-}
+};
