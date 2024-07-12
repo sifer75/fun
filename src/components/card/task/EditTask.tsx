@@ -16,7 +16,13 @@ import { updateTask } from "@/lib/task.request";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-function EditTask({ titleCard, descriptionCard = "", id, modele, onClose }: DialogCardProps) {
+function EditTask({
+  titleCard,
+  descriptionCard = "",
+  id,
+  modele,
+  onClose,
+}: DialogCardProps) {
   const queryClient = useQueryClient();
 
   const [title, setTitle] = useState<string>(titleCard);
@@ -39,7 +45,9 @@ function EditTask({ titleCard, descriptionCard = "", id, modele, onClose }: Dial
     setTitle(e.target.value);
   };
 
-  const handleChangeDescription = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+  const handleChangeDescription = (
+    e: React.ChangeEvent<HTMLTextAreaElement>
+  ) => {
     setDescription(e.target.value);
   };
 
@@ -71,17 +79,17 @@ function EditTask({ titleCard, descriptionCard = "", id, modele, onClose }: Dial
             className="col-span-3 text-gray-500 mb-2"
             onChange={(e) => handleChangeTitle(e)}
           />
-           <Label htmlFor="username" className="text-right">
-              Description
-            </Label>
-            <Textarea
-              defaultValue={descriptionCard}
-              placeholder={"Description de la tâche"}
-              className="col-span-3"
-              onChange={(e) => {
-                handleChangeDescription(e);
-              }}
-            />
+          <Label htmlFor="username" className="text-right">
+            Description
+          </Label>
+          <Textarea
+            defaultValue={descriptionCard}
+            placeholder={"Description de la tâche"}
+            className="col-span-3"
+            onChange={(e) => {
+              handleChangeDescription(e);
+            }}
+          />
         </div>
         <DialogFooter>
           <Button
@@ -90,7 +98,7 @@ function EditTask({ titleCard, descriptionCard = "", id, modele, onClose }: Dial
               mutation.mutate({
                 id: id,
                 title: title,
-                description: description
+                description: description,
               });
             }}
           >

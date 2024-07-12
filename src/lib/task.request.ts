@@ -46,3 +46,26 @@ export const deleteTask = async (id: number) => {
   }
   return response.json();
 };
+
+export const updateTaskStatus = async ({
+  status,
+  id,
+}: {
+  status: string;
+  id: number;
+}) => {
+  const response = await fetch(
+    `http://localHost:3333/task/update/status/${id}`,
+    {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({status}),
+    }
+  );
+  if (!response.ok) {
+    throw new Error(
+      `Erreur lors de la modification du status de la tâche ${id}`
+    );
+  }
+  return response.json();
+};
