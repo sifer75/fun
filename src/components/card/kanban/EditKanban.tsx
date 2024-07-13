@@ -16,7 +16,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import { updateKanban } from "@/lib/kanban.request";
 
-function EditKanban({ titleCard, id, modele, onClose }: DialogCardProps) {
+function EditKanban({ titleCard, id, modele }: DialogCardProps) {
   const queryClient = useQueryClient();
 
   const [title, setTitle] = useState<string>(titleCard);
@@ -29,14 +29,9 @@ function EditKanban({ titleCard, id, modele, onClose }: DialogCardProps) {
     },
     onSuccess: async () => {
       setIsDialogOpen(false);
-      if (onClose) onClose();
       queryClient.invalidateQueries({ queryKey: ["kanban"] });
     },
   });
-
-  const handleChangeTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setTitle(e.target.value);
-  };
 
   return (
     <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
@@ -65,7 +60,7 @@ function EditKanban({ titleCard, id, modele, onClose }: DialogCardProps) {
             defaultValue={titleCard}
             placeholder={"Nom du projet"}
             className="col-span-3 text-gray-500"
-            onChange={(e) => handleChangeTitle(e)}
+            onChange={(e) => setTitle(e.target.value)}
           />
         </div>
         <DialogFooter>

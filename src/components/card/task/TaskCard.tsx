@@ -13,21 +13,20 @@ function TaskCard({ title, description, id, color }: TaskProps) {
   if (!id) return <div>id non trouvé</div>;
 
   return (
-    <Card className="w-[350px] rounded-2xl mb-8">
+    <Card className="w-[400px] rounded-2xl mb-8">
       <CardHeader
-        className={`pr-3 rounded-t-lg max-h-12  flex ${color} justify-start pb-10 pt-5`}
+        className={`pr-3 rounded-t-lg flex ${color} justify-start pb-10 pt-5`}
       >
         <div className="flex justify-between items-center w-full">
-          <CardTitle className="text-xl flex items-center gap-2 h-full justify-between overflow-hidden max-h-12">
-            <p className="whitespace-nowrap overflow-hidden">{title}</p>
+          <CardTitle className="text-xl flex items-center gap-2 h-full justify-between">
+            <p className="whitespace-nowrap overflow-hidden min-w-4 max-w-64">{title}</p>
             <EditTask
-              modele={"task"}
+              modele={"tâche"}
               titleCard={title}
               descriptionCard={description}
               id={id}
             ></EditTask>
           </CardTitle>
-
           <DeleteTask
             dialogTitle={"Supprimer la tâche"}
             label={`souhaitez-vous supprimer ${title} ?`}
@@ -36,7 +35,7 @@ function TaskCard({ title, description, id, color }: TaskProps) {
         </div>
       </CardHeader>
       <CardContent className="pt-5">
-        <CardDescription>{description}</CardDescription>
+        <CardDescription className="break-words">{description}</CardDescription>
       </CardContent>
     </Card>
   );

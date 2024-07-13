@@ -18,7 +18,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { deleteKanban } from "@/lib/kanban.request";
 
 const DeleteKanban = React.forwardRef<HTMLButtonElement, DialogCardDeleteProps>(
-  ({ dialogTitle, label, id, onClose }, ref) => {
+  ({ dialogTitle, label, id }, ref) => {
     const { toast } = useToast();
 
     const queryClient = useQueryClient();
@@ -37,7 +37,6 @@ const DeleteKanban = React.forwardRef<HTMLButtonElement, DialogCardDeleteProps>(
             <ToastAction altText="Goto schedule to undo">Undo</ToastAction>
           ),
         });
-        onClose();
         setIsDialogOpen(false);
         queryClient.invalidateQueries({ queryKey: ["kanban"] });
       },

@@ -10,5 +10,4 @@ export interface DialogCardDeleteProps {
   dialogTitle: string;
   label: string;
   id: number;
-  onClose?: () => void;
 }

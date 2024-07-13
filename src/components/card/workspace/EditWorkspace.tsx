@@ -25,7 +25,6 @@ function EditWorkspace({
   onClose,
 }: DialogCardProps) {
   const queryClient = useQueryClient();
-
   const [title, setTitle] = useState<string>(titleCard);
   const [description, setDescription] = useState<string>(descriptionCard);
   const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
@@ -42,22 +41,12 @@ function EditWorkspace({
     },
   });
 
-  const handleChangeTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setTitle(e.target.value);
-  };
-
-  const handleChangeDescription = (
-    e: React.ChangeEvent<HTMLTextAreaElement>
-  ) => {
-    setDescription(e.target.value);
-  };
-
   return (
     <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
       <DialogTrigger asChild>
         <Button
           variant="ghost"
-          className="flex items-center justify-start  px-2 py-1.5 rounded-sm h-8 w-full"
+          className="flex items-center justify-start px-2 py-1.5 rounded-sm h-8 w-full"
         >
           <PencilLine className="w-4 h-4 mr-2" />
           Éditer
@@ -72,7 +61,6 @@ function EditWorkspace({
             Modifier la description du {modele}
           </DialogDescription>
         </DialogHeader>
-        <div className="grid gap-4 py-4">
           <div className="flex flex-col items-start gap-4 mb-2">
             <Label htmlFor="name" className="text-right">
               Nom
@@ -81,8 +69,8 @@ function EditWorkspace({
               id="name"
               defaultValue={titleCard}
               placeholder={"Nom du projet"}
-              className="col-span-3 text-gray-500 mb-2"
-              onChange={(e) => handleChangeTitle(e)}
+              className="col-span-3 text-gray-500"
+              onChange={(e) => setTitle(e.target.value)}
             />
             <Label htmlFor="username" className="text-right">
               Description
@@ -91,12 +79,9 @@ function EditWorkspace({
               defaultValue={descriptionCard}
               placeholder={"Description du projet"}
               className="col-span-3"
-              onChange={(e) => {
-                handleChangeDescription(e);
-              }}
+              onChange={(e) => setDescription(e.target.value)}
             />
           </div>
-        </div>
         <DialogFooter>
           <Button
             type="submit"

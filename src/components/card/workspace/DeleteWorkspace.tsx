@@ -20,7 +20,7 @@ import { deleteWorkspace } from "@/lib/workspace.request";
 const DeleteWorkspace = React.forwardRef<
   HTMLButtonElement,
   DialogCardDeleteProps
->(({ dialogTitle, label, id, onClose }, ref) => {
+>(({ dialogTitle, label, id }, ref) => {
   const { toast } = useToast();
 
   const queryClient = useQueryClient();
@@ -37,7 +37,6 @@ const DeleteWorkspace = React.forwardRef<
         description: "Friday, February 10, 2023 at 5:57 PM",
         action: <ToastAction altText="Goto schedule to undo">Undo</ToastAction>,
       });
-      onClose();
       setIsDialogOpen(false);
       queryClient.invalidateQueries({ queryKey: ["workspace"] });
     },

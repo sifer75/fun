@@ -56,7 +56,7 @@ function EditTask({
       <DialogTrigger asChild>
         <Button
           variant="ghost"
-          className="flex items-center justify-start  px-2 py-1.5 rounded-sm h-8 w-full"
+          className="flex items-center justify-start  px-2 py-1.5 rounded-sm h-8 w-fit"
         >
           <PencilLine />
         </Button>
@@ -64,9 +64,9 @@ function EditTask({
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
           <DialogTitle className="text-3xl">
-            Modifier le nom du {modele}
+            Modifier le nom de la {modele}
           </DialogTitle>
-          <DialogDescription>Modifier le nom du {modele}</DialogDescription>
+          <DialogDescription>Modifier la {modele}</DialogDescription>
         </DialogHeader>
         <div className="flex flex-col items-start gap-4 mb-2 py-4">
           <Label htmlFor="name" className="text-right">
@@ -102,7 +102,7 @@ function EditTask({
               });
             }}
           >
-            Ajouter
+            Modifier
           </Button>
         </DialogFooter>
       </DialogContent>

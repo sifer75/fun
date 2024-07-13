@@ -26,7 +26,7 @@ function Workspaces() {
   );
   return (
     <div className="h-screen w-screen flex flex-col px-8">
-      <Header titlePage="projet" pageType="workspace" />
+      <Header titlePage="Projets" pageType="workspace" />
       <div className="py-6 flex justify-between">
         <Menubar>
           <MenubarMenu>

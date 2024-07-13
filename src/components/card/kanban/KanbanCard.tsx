@@ -86,7 +86,6 @@ function KanbanCard({ title, workspaceId, id }: KanbanProps) {
                     modele={"Kanban"}
                     titleCard={title}
                     id={id}
-                    onClose={() => setIsDropdownOpen(false)}
                   />
                 </DropdownMenuItem>
                 <DropdownMenuItem className="w-full">
@@ -99,7 +98,6 @@ function KanbanCard({ title, workspaceId, id }: KanbanProps) {
                     dialogTitle={"Supprimer le kanban"}
                     label={`Souhaitez-vous supprimer ${title} ?`}
                     id={id}
-                    onClose={() => setIsDropdownOpen(false)}
                   />
                 </DropdownMenuItem>
               </DropdownMenuGroup>

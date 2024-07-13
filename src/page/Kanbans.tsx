@@ -30,7 +30,7 @@ function Kanbans() {
 
   return (
     <div className="h-screen w-screen flex flex-col px-8">
-      <Header titlePage="kanban" pageType="kanban" />
+      <Header titlePage="Kanbans" pageType="kanban" />
       <div className="py-6 flex justify-between">
         <Menubar>
           <MenubarMenu>
