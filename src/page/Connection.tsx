@@ -6,11 +6,8 @@ import catchana from "../assets/catchana.svg";
 
 function Connection() {
   const navigate = useNavigate();
-  const clientId = "Ov23li6A2ykRPZXhbJvF";
-  const redirectUri = encodeURIComponent(
-    "http://localhost:3333/github/callback"
-  );
-  const githubOAuthURL = `https://github.com/login/oauth/authorize?client_id=${clientId}&redirect_uri=${redirectUri}`;
+  const githubRedirect = `https://localhost:3333/github/redirect`;
+
   return (
     <div className="w-screen h-screen flex">
       <img src={catchana} className="w-1/2 h-full object-cover"></img>
@@ -39,10 +36,8 @@ function Connection() {
               <div className="flex-grow h-[1px] bg-gray-300"></div>
             </div>
           </div>
-
           <Button
-            onClick={() => (window.location.href = githubOAuthURL)}
-            // onClick={() => (github.redirect())}
+            onClick={() => (window.location.href = githubRedirect)}
             className="w-full bg-white border text-back text-base border-gray-300 rounded-md"
           >
             <img className="h-6 w-6 mr-2" src={github} alt="google"></img> Git

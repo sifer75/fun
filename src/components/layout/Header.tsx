@@ -2,6 +2,8 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import CreateWorkspace from "../card/workspace/CreateWorkspace";
 import CreateKanban from "../card/kanban/CreateKanban";
 import CreateTask from "../card/task/CreateTask";
+import { getUserInfo } from "@/lib/user.request";
+import { useQuery } from "@tanstack/react-query";
 
 interface HeaderProps {
   titlePage: string;
@@ -9,6 +11,12 @@ interface HeaderProps {
   id?: number;
 }
 function Header({ titlePage, pageType }: HeaderProps) {
+  const {
+    data: user,
+    isError: userError,
+    isLoading: userLoading,
+  } = useQuery({ queryKey: ["user"], queryFn: getUserInfo });
+  console.log(user, "user");
   const renderCreateButton = () => {
     switch (pageType) {
       case "workspace":
@@ -31,15 +39,18 @@ function Header({ titlePage, pageType }: HeaderProps) {
         return "Gestion des Tâches";
     }
   };
+  if(!user) return <div>utilisateur non trouvé</div>
+  if (userError || userLoading) return <div>chargement...</div>;
+
   return (
     <>
       <div className="h-20 border-b-2 border-gray-200 flex items-center gap-8">
         <div className="border-2 border-gray-200 rounded-lg w-52 flex items-center justify-center p-2 mr-4">
           <Avatar className="mr-2">
-            <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
+            <AvatarImage src={user.avatar_url} alt="@shadcn" />
             <AvatarFallback>CN</AvatarFallback>
           </Avatar>
-          <p>Alicia Koch</p>
+          <p>{user.name}</p>
         </div>
         <p>{titlePage}</p>
         <p>réglage</p>

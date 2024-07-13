@@ -19,9 +19,14 @@ function Workspaces() {
   });
   const [searchTitle, setSearchTitle] = useState<string>("");
 
-  if (isError || isLoading) return <div>chargement...</div>;
+  if (isError || isLoading)
+    return (
+      <div className="h-screen w-screen flex flex-col px-8">
+        <Header titlePage="Projets" pageType="workspace" />
+      </div>
+    );
 
-  const filteredWorkspaces = workspaces.filter((workspace: WorkspaceProps) =>
+  const filteredWorkspaces = workspaces?.filter((workspace: WorkspaceProps) =>
     workspace.title.toLowerCase().includes(searchTitle.toLowerCase())
   );
   return (
