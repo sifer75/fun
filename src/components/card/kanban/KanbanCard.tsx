@@ -18,19 +18,36 @@ import {
 import { ArrowUpRight, ArchiveRestore } from "lucide-react";
 import { Ellipsis } from "lucide-react";
 import { Progress } from "@/components/ui/progress";
-import { KanbanProps } from "@/lib/cards.utils";
+import { KanbanProps, TaskProps } from "@/lib/cards.utils";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import EditKanban from "./EditKanban";
 import DeleteKanban from "./DeleteKanban";
+import { useQuery } from "@tanstack/react-query";
+import { getAllTask } from "@/lib/task.request";
 
 function KanbanCard({ title, workspaceId, id }: KanbanProps) {
   const [isDropdownOpen, setIsDropdownOpen] = useState<boolean>(false);
+  const kanbanId = id ?? -1;
 
-  const handleDropdownClose = () => {
-    setIsDropdownOpen(false);
-  };
+  const {
+    data: tasks,
+    isError,
+    isLoading,
+  } = useQuery({
+    queryKey: ["kanbanTasks", kanbanId],
+    queryFn: () => getAllTask(kanbanId),
+    enabled: id !== undefined,
+  });
 
+  const totalTasks = tasks ? tasks.length : 0;
+  const totalTasksDone = tasks
+    ? tasks.filter((task: TaskProps) => task.status === "finished").length
+    : 0;
+  const percentageTasksDone =
+    totalTasks > 0 ? Math.min((totalTasksDone / totalTasks) * 100, 100) : 0;
+
+  if (isError || isLoading) return <div>chargement...</div>;
   if (!id) return <div>id non trouvé</div>;
 
   return (
@@ -49,7 +66,7 @@ function KanbanCard({ title, workspaceId, id }: KanbanProps) {
         </DropdownMenu>
       </CardHeader>
       <CardContent className="flex items-center justify-between">
-        <CardDescription>0 taches</CardDescription>
+        <CardDescription>{totalTasks} tache(s)</CardDescription>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button
@@ -69,7 +86,7 @@ function KanbanCard({ title, workspaceId, id }: KanbanProps) {
                     modele={"Kanban"}
                     titleCard={title}
                     id={id}
-                    onClose={handleDropdownClose}
+                    onClose={() => setIsDropdownOpen(false)}
                   />
                 </DropdownMenuItem>
                 <DropdownMenuItem className="w-full">
@@ -82,7 +99,7 @@ function KanbanCard({ title, workspaceId, id }: KanbanProps) {
                     dialogTitle={"Supprimer le kanban"}
                     label={`Souhaitez-vous supprimer ${title} ?`}
                     id={id}
-                    onClose={handleDropdownClose}
+                    onClose={() => setIsDropdownOpen(false)}
                   />
                 </DropdownMenuItem>
               </DropdownMenuGroup>
@@ -91,7 +108,7 @@ function KanbanCard({ title, workspaceId, id }: KanbanProps) {
         </DropdownMenu>
       </CardContent>
       <CardFooter className="flex justify-between">
-        <Progress value={50} />
+        <Progress value={percentageTasksDone} />
       </CardFooter>
     </Card>
   );

@@ -13,13 +13,13 @@ function TaskCard({ title, description, id, color }: TaskProps) {
   if (!id) return <div>id non trouvé</div>;
 
   return (
-    <Card className="w-full rounded-2xl mb-8">
+    <Card className="w-[350px] rounded-2xl mb-8">
       <CardHeader
-        className={`pr-3 rounded-t-lg h-12 flex ${color} justify-start pb-10 pt-5`}
+        className={`pr-3 rounded-t-lg max-h-12  flex ${color} justify-start pb-10 pt-5`}
       >
         <div className="flex justify-between items-center w-full">
-          <CardTitle className="text-xl flex items-center gap-2 h-full justify-between overflow-hidden">
-            {title}
+          <CardTitle className="text-xl flex items-center gap-2 h-full justify-between overflow-hidden max-h-12">
+            <p className="whitespace-nowrap overflow-hidden">{title}</p>
             <EditTask
               modele={"task"}
               titleCard={title}

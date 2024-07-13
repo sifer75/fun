@@ -98,7 +98,7 @@ function Tasks() {
     <div className="h-screen w-screen flex flex-col px-8">
       <Header titlePage="tâche" pageType="task" />
       <DragDropContext onDragEnd={onDragEnd}>
-        <div className="w-full h-max flex justify-center place-items-center">
+        <div className="w-full h-full flex justify-center place-items-center">
           <Droppable droppableId="to_do">
             {(provided: DroppableProvided) => (
               <div
