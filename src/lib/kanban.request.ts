@@ -5,6 +5,7 @@ export const createKanban = async (data: KanbanProps) => {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(data),
+    credentials: "include",
   });
   if (!response.ok) {
     throw new Error("Erreur lors de la création du kanban");
@@ -18,6 +19,8 @@ export const getAllKanban = async (workspaceId: number) => {
     {
       method: "GET",
       headers: { "Content-Type": "application/json" },
+      credentials: "include",
+
     }
   );
   if (!response.ok) {
@@ -32,6 +35,7 @@ export const updateKanban = async (data: KanbanProps) => {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ title }),
+    credentials: "include",
   });
   if (!response.ok) {
     throw new Error("Erreur lors de la modification du kanban");
@@ -44,6 +48,7 @@ export const deleteKanban = async (id: number) => {
     method: "DELETE",
     headers: { "Content-Type": "application/json" },
     body: null,
+    credentials: "include",
   });
   if (!response.ok) {
     throw new Error("Erreur lors de la suppression du kanban");

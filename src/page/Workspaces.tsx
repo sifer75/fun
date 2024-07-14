@@ -18,7 +18,9 @@ function Workspaces() {
     queryFn: getAllWorkspace,
   });
   const [searchTitle, setSearchTitle] = useState<string>("");
-
+  if (!workspaces) {
+    return null;
+  }
   if (isError || isLoading)
     return (
       <div className="h-screen w-screen flex flex-col px-8">

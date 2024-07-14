@@ -6,7 +6,7 @@ import catchana from "../assets/catchana.svg";
 
 function Connection() {
   const navigate = useNavigate();
-  const githubRedirect = `https://localhost:3333/github/redirect`;
+  const githubRedirect = `http://localhost:3333/github/redirect`;
 
   return (
     <div className="w-screen h-screen flex">

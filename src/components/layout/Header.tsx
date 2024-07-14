@@ -16,7 +16,6 @@ function Header({ titlePage, pageType }: HeaderProps) {
     isError: userError,
     isLoading: userLoading,
   } = useQuery({ queryKey: ["user"], queryFn: getUserInfo });
-  console.log(user, "user");
   const renderCreateButton = () => {
     switch (pageType) {
       case "workspace":
@@ -47,7 +46,7 @@ function Header({ titlePage, pageType }: HeaderProps) {
       <div className="h-20 border-b-2 border-gray-200 flex items-center gap-8">
         <div className="border-2 border-gray-200 rounded-lg w-52 flex items-center justify-center p-2 mr-4">
           <Avatar className="mr-2">
-            <AvatarImage src={user.avatar_url} alt="@shadcn" />
+            <AvatarImage src={user.avatarUrl} alt="@shadcn" />
             <AvatarFallback>CN</AvatarFallback>
           </Avatar>
           <p>{user.name}</p>

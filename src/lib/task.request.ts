@@ -5,6 +5,7 @@ export const createTask = async (data: TaskProps) => {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(data),
+    credentials: "include",
   });
   if (!response.ok) {
     throw new Error("Erreur lors de la création de la tâche");
@@ -16,6 +17,7 @@ export const getAllTask = async (kanbanId: number) => {
   const response = await fetch(`http://localhost:3333/task/get/${kanbanId}`, {
     method: "GET",
     headers: { "Content-Type": "application/json" },
+    credentials: "include",
   });
   if (!response.ok) {
     throw new Error("Erreur lors de la récupération des tâches");
@@ -29,6 +31,7 @@ export const updateTask = async (data: TaskProps) => {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ title, description }),
+    credentials: "include",
   });
   if (!response.ok) {
     throw new Error("Erreur lors de la modification de la tâche");
@@ -40,6 +43,7 @@ export const deleteTask = async (id: number) => {
   const response = await fetch(`http://localhost:3333/task/delete/${id}`, {
     method: "DELETE",
     headers: { "Content-Type": "application/json" },
+    credentials: "include",
   });
   if (!response.ok) {
     throw new Error("Erreur lors de la suppression de la tâche");
@@ -60,6 +64,7 @@ export const updateTaskStatus = async ({
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({status}),
+      credentials: "include",
     }
   );
   if (!response.ok) {
