@@ -51,14 +51,14 @@ function KanbanCard({ title, workspaceId, id }: KanbanProps) {
   if (!id) return <div>id non trouvé</div>;
 
   return (
-    <Card className="w-[300px] overflow-y-scroll">
-      <CardHeader className="flex flex-row justify-between items-center pb-3">
-        <CardTitle>{title}</CardTitle>
+    <Card className="w-[350px]">
+      <CardHeader className="flex flex-row justify-between items-center">
+        <CardTitle className="h-full overflow-hidden truncate">{title}</CardTitle>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Link
               to={`/workspace/${workspaceId}/${id}`}
-              className="bg-black py-2 px-4 rounded-md"
+              className="bg-black py-2 px-4 rounded-md ml-4"
             >
               <ArrowUpRight className="text-white" />
             </Link>
@@ -82,11 +82,7 @@ function KanbanCard({ title, workspaceId, id }: KanbanProps) {
             <DropdownMenuContent className="w-56">
               <DropdownMenuGroup>
                 <DropdownMenuItem asChild>
-                  <EditKanban
-                    modele={"Kanban"}
-                    titleCard={title}
-                    id={id}
-                  />
+                  <EditKanban modele={"Kanban"} titleCard={title} id={id} />
                 </DropdownMenuItem>
                 <DropdownMenuItem className="w-full">
                   <ArchiveRestore className="mr-2 h-4 w-4" />

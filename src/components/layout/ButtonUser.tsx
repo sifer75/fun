@@ -11,7 +11,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Label } from "../ui/label";
-import { Trash2 } from "lucide-react";
+import { LogOut } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 function ButtonUser() {
   const queryClient = useQueryClient();
@@ -33,10 +33,10 @@ function ButtonUser() {
       <DialogTrigger asChild>
         <Button
           variant="ghost"
-          className="flex items-center justify-start px-2 py-1.5 rounded-sm h-8 w-full"
+          className="flex items-center justify-start w-full"
         >
-          <Trash2 className="w-4 h-4 mr-2" />
-          Supprimer
+          Déconnexion
+          <LogOut className="w-4 h-4 ml-2 " />
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[450px]">
@@ -58,7 +58,7 @@ function ButtonUser() {
             }}
             disabled={mutation.isPending}
           >
-            Supprimer
+            Déconnexion
           </Button>
         </DialogFooter>
       </DialogContent>

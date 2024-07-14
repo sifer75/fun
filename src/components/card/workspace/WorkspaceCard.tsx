@@ -32,14 +32,16 @@ function WorkspaceCard({ title, description, id }: WorkspaceProps) {
   };
 
   return (
-    <Card className="w-[300px] h-48 overflow-y-scroll">
+    <Card className="w-[350px] h-auto">
       <CardHeader className="flex flex-row justify-between items-center pb-3">
-        <CardTitle>{title}</CardTitle>
+        <CardTitle className="overflow-hidden  truncate">
+          {title}
+        </CardTitle>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Link
               to={`/workspace/${id}`}
-              className="bg-black py-2 px-4 rounded-md"
+              className="bg-black py-2 px-4 rounded-md ml-4"
             >
               <ArrowUpRight className="text-white" />
             </Link>
@@ -80,7 +82,6 @@ function WorkspaceCard({ title, description, id }: WorkspaceProps) {
                     dialogTitle={"Supprimer le projet"}
                     label={`Souhaitez-vous supprimer ${title} ?`}
                     id={id}
-                    onClose={handleDropdownClose}
                   />
                 </DropdownMenuItem>
               </DropdownMenuGroup>
@@ -88,8 +89,8 @@ function WorkspaceCard({ title, description, id }: WorkspaceProps) {
           )}
         </DropdownMenu>
       </CardContent>
-      <CardFooter className="flex justify-between align-start h-fit items-start">
-        <CardDescription className="flex items-start">
+      <CardFooter>
+        <CardDescription className="max-w-[300px] break-words">
           {description}
         </CardDescription>
       </CardFooter>

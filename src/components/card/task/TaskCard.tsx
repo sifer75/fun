@@ -19,7 +19,7 @@ function TaskCard({ title, description, id, color }: TaskProps) {
       >
         <div className="flex justify-between items-center w-full">
           <CardTitle className="text-xl flex items-center gap-2 h-full justify-between">
-            <p className="whitespace-nowrap overflow-hidden min-w-4 max-w-64">{title}</p>
+            <p className="whitespace-nowrap overflow-hidden min-w-4 max-w-64 truncate">{title}</p>
             <EditTask
               modele={"tâche"}
               titleCard={title}
