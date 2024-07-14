@@ -11,3 +11,15 @@ export const getUserInfo = async () => {
   }
   return response.json();
 };
+
+export const logout = async () => {
+  const response = await fetch("http://localhost:3333/user/logout", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    credentials: "include",
+  });
+  if (!response.ok) {
+    throw new Error("Erreur lors de la déconnection");
+  }
+  return response.json();
+};

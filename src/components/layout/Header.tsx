@@ -1,10 +1,20 @@
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import CreateWorkspace from "../card/workspace/CreateWorkspace";
 import CreateKanban from "../card/kanban/CreateKanban";
 import CreateTask from "../card/task/CreateTask";
-import { getUserInfo } from "@/lib/user.request";
+import ButtonUser from "./ButtonUser";
+import { Avatar } from "@radix-ui/react-avatar";
+import { AvatarImage } from "../ui/avatar";
+import { Button } from "../ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { useQuery } from "@tanstack/react-query";
-
+import { getUserInfo } from "@/lib/user.request";
 interface HeaderProps {
   titlePage: string;
   pageType: "workspace" | "kanban" | "task";
@@ -16,14 +26,15 @@ function Header({ titlePage, pageType }: HeaderProps) {
     isError: userError,
     isLoading: userLoading,
   } = useQuery({ queryKey: ["user"], queryFn: getUserInfo });
+
   const renderCreateButton = () => {
     switch (pageType) {
       case "workspace":
-        return <CreateWorkspace titleTypeCard={titlePage} />;
+        return <CreateWorkspace titleTypeCard={pageType} />;
       case "kanban":
-        return <CreateKanban titleTypeCard={titlePage} />;
+        return <CreateKanban titleTypeCard={pageType} />;
       case "task":
-        return <CreateTask titleTypeCard={titlePage} />;
+        return <CreateTask titleTypeCard={pageType} />;
       default:
         return null;
     }
@@ -38,19 +49,33 @@ function Header({ titlePage, pageType }: HeaderProps) {
         return "Gestion des Tâches";
     }
   };
-  if(!user) return <div>utilisateur non trouvé</div>
+
+  if (!user) return <div>utilisateur non trouvé</div>;
   if (userError || userLoading) return <div>chargement...</div>;
 
   return (
     <>
       <div className="h-20 border-b-2 border-gray-200 flex items-center gap-8">
-        <div className="border-2 border-gray-200 rounded-lg w-52 flex items-center justify-center p-2 mr-4">
-          <Avatar className="mr-2">
-            <AvatarImage src={user.avatarUrl} alt="@shadcn" />
-            <AvatarFallback>CN</AvatarFallback>
-          </Avatar>
-          <p>{user.name}</p>
-        </div>
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button variant="outline" className="w-40">
+              <Avatar className="mr-2 w-5 h-5">
+                <AvatarImage
+                  src={user.avatarUrl}
+                  alt="image de l'utilisateur"
+                />
+              </Avatar>
+              <p className="text-lg">{user.name}</p>
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent>
+            <DropdownMenuLabel>Mon compte</DropdownMenuLabel>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem asChild>
+              <ButtonUser />
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
         <p>{titlePage}</p>
         <p>réglage</p>
       </div>
