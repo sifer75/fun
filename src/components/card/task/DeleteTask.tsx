@@ -18,7 +18,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { deleteTask } from "@/lib/task.request";
 
 const DeleteTask = React.forwardRef<HTMLButtonElement, DialogCardDeleteProps>(
-  ({ dialogTitle, label, id }, ref) => {
+  ({ dialogTitle, id }, ref) => {
     const { toast } = useToast();
 
     const queryClient = useQueryClient();
@@ -67,7 +67,7 @@ const DeleteTask = React.forwardRef<HTMLButtonElement, DialogCardDeleteProps>(
           <div className="grid gap-4 py-4">
             <div className="flex flex-col items-start gap-4">
               <Label htmlFor="username" className="text-right">
-                {label}
+                souhaitez-vous supprimer ?
               </Label>
             </div>
           </div>

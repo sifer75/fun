@@ -8,6 +8,5 @@ export interface DialogCardProps {
 
 export interface DialogCardDeleteProps {
   dialogTitle: string;
-  label: string;
   id: number;
 }

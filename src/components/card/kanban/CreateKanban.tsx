@@ -35,16 +35,10 @@ function CreateKanban({ titleTypeCard }: { titleTypeCard: string }) {
     },
   });
 
-  const handleChangeTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setTitle(e.target.value);
-  };
-
   return (
     <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
       <DialogTrigger asChild>
-        <Button>
-          <span>Création du {titleTypeCard}</span>
-        </Button>
+        <Button>Création du {titleTypeCard}</Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
@@ -64,7 +58,7 @@ function CreateKanban({ titleTypeCard }: { titleTypeCard: string }) {
               id="name"
               placeholder={`Nom du ${titleTypeCard}`}
               className="col-span-3 text-gray-500"
-              onChange={(e) => handleChangeTitle(e)}
+              onChange={(e) => setTitle(e.target.value)}
             />
           </div>
         </div>

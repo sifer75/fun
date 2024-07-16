@@ -76,7 +76,7 @@ function Header({ titlePage, pageType }: HeaderProps) {
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
-        <p>{titlePage}</p>
+        {titlePage}
         <p>réglage</p>
       </div>
 

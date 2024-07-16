@@ -16,5 +16,5 @@ export interface TaskProps {
   kanbanId?: number;
   id?: number;
   status?: "to_do" | "in_progress" | "finished";
-  color?: "bg-fontBlue" | "bg-fontYellow" | "bg-fontGreen"
+  color?: string;
 }

@@ -51,9 +51,11 @@ function KanbanCard({ title, workspaceId, id }: KanbanProps) {
   if (!id) return <div>id non trouvé</div>;
 
   return (
-    <Card className="w-[350px]">
+    <Card className="w-56 md:w-72 lg:w-96">
       <CardHeader className="flex flex-row justify-between items-center">
-        <CardTitle className="h-full overflow-hidden truncate">{title}</CardTitle>
+        <CardTitle className="truncate w-24 sm:w-32 md:w-40 lg:w-64">
+          {title}
+        </CardTitle>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Link
@@ -90,11 +92,7 @@ function KanbanCard({ title, workspaceId, id }: KanbanProps) {
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem asChild>
-                  <DeleteKanban
-                    dialogTitle={"Supprimer le kanban"}
-                    label={`Souhaitez-vous supprimer ${title} ?`}
-                    id={id}
-                  />
+                  <DeleteKanban dialogTitle={"Supprimer le kanban"} id={id} />
                 </DropdownMenuItem>
               </DropdownMenuGroup>
             </DropdownMenuContent>

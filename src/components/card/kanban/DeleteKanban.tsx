@@ -18,7 +18,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { deleteKanban } from "@/lib/kanban.request";
 
 const DeleteKanban = React.forwardRef<HTMLButtonElement, DialogCardDeleteProps>(
-  ({ dialogTitle, label, id }, ref) => {
+  ({ dialogTitle, id }, ref) => {
     const { toast } = useToast();
 
     const queryClient = useQueryClient();
@@ -62,9 +62,8 @@ const DeleteKanban = React.forwardRef<HTMLButtonElement, DialogCardDeleteProps>(
           </DialogHeader>
           <div className="grid gap-4 py-4">
             <div className="flex flex-col items-start gap-4">
-              <Label htmlFor="username" className="text-right">
-                {label}
-              </Label>
+              <Label htmlFor="username" className="text-right"></Label>
+              Souhaitez vous supprimer ?
             </div>
           </div>
           <DialogFooter>

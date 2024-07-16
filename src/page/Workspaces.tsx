@@ -32,10 +32,10 @@ function Workspaces() {
     workspace.title.toLowerCase().includes(searchTitle.toLowerCase())
   );
   return (
-    <div className="h-screen w-screen flex flex-col px-8">
+    <div className="flex flex-col px-8">
       <Header titlePage="Projets" pageType="workspace" />
-      <div className="py-6 flex justify-between">
-        <Menubar>
+      <div className="pt-6 pb-10 flex  gap-8 justify-between">
+        <Menubar className="w-fit">
           <MenubarMenu>
             <MenubarTrigger>Tout</MenubarTrigger>
           </MenubarMenu>
@@ -44,7 +44,7 @@ function Workspaces() {
           </MenubarMenu>
         </Menubar>
         <Input
-          className="w-3/12"
+          className="w-40 sm:w-60 md:w-72 lg:w-80"
           type="text"
           placeholder="Rechercher..."
           value={searchTitle}
@@ -53,17 +53,14 @@ function Workspaces() {
           }}
         />
       </div>
-      <div className="w-full grid grid-cols-3 justify-center h-auto gap-8 place-items-center">
-        {filteredWorkspaces.map((workspace: WorkspaceProps, index: number) => {
-          return (
-            <WorkspaceCard
-              key={index}
-              title={workspace.title}
-              description={workspace.description}
-              id={workspace.id}
-            />
-          );
-        })}
+      <div className="flex flex-wrap gap-8 sm:gap-12 md:gap-16 lg:gap-20 justify-center">
+        {filteredWorkspaces.map((workspace: WorkspaceProps) => (
+          <WorkspaceCard
+            title={workspace.title}
+            description={workspace.description}
+            id={workspace.id}
+          />
+        ))}
       </div>
       <Toaster />
     </div>

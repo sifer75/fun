@@ -41,22 +41,12 @@ function EditTask({
     },
   });
 
-  const handleChangeTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setTitle(e.target.value);
-  };
-
-  const handleChangeDescription = (
-    e: React.ChangeEvent<HTMLTextAreaElement>
-  ) => {
-    setDescription(e.target.value);
-  };
-
   return (
     <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
       <DialogTrigger asChild>
         <Button
           variant="ghost"
-          className="flex items-center justify-start  px-2 py-1.5 rounded-sm h-8 w-fit"
+          className="flex items-center justify-start px-2 py-1.5 rounded-sm h-8"
         >
           <PencilLine />
         </Button>
@@ -77,7 +67,7 @@ function EditTask({
             defaultValue={titleCard}
             placeholder={"Nom du projet"}
             className="col-span-3 text-gray-500 mb-2"
-            onChange={(e) => handleChangeTitle(e)}
+            onChange={(e) => setTitle(e.target.value)}
           />
           <Label htmlFor="username" className="text-right">
             Description
@@ -87,7 +77,7 @@ function EditTask({
             placeholder={"Description de la tâche"}
             className="col-span-3"
             onChange={(e) => {
-              handleChangeDescription(e);
+              setDescription(e.target.value);
             }}
           />
         </div>

@@ -47,7 +47,7 @@ function ButtonUser() {
         </DialogHeader>
         <DialogDescription className="flex flex-col items-start py-8">
           <Label htmlFor="username" className="text-right">
-            Cette action est irréversible !
+            Cette action va procéder à la déconnexion de l'utilisateur
           </Label>
         </DialogDescription>
         <DialogFooter>

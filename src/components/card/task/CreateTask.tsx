@@ -37,22 +37,10 @@ function CreateTask({ titleTypeCard }: { titleTypeCard: string }) {
     },
   });
 
-  const handleChangeTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setTitle(e.target.value);
-  };
-
-  const handleChangeDescription = (
-    e: React.ChangeEvent<HTMLTextAreaElement>
-  ) => {
-    setDescription(e.target.value);
-  };
-
   return (
     <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
       <DialogTrigger asChild>
-        <Button>
-          <span>Création de la {titleTypeCard}</span>
-        </Button>
+        <Button>Création de la {titleTypeCard}</Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
@@ -72,7 +60,7 @@ function CreateTask({ titleTypeCard }: { titleTypeCard: string }) {
               id="name"
               placeholder={`Nom du ${titleTypeCard}`}
               className="col-span-3 text-gray-500"
-              onChange={(e) => handleChangeTitle(e)}
+              onChange={(e) => setTitle(e.target.value)}
             />
           </div>
           <div className="flex flex-col items-start gap-4">
@@ -82,7 +70,7 @@ function CreateTask({ titleTypeCard }: { titleTypeCard: string }) {
             <Textarea
               placeholder={`Décrire la ${titleTypeCard}`}
               className="col-span-3"
-              onChange={(e) => handleChangeDescription(e)}
+              onChange={(e) => setDescription(e.target.value)}
             />
           </div>
         </div>

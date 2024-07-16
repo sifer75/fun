@@ -58,30 +58,30 @@ function EditWorkspace({
             Modifier le nom du {modele}
           </DialogTitle>
           <DialogDescription>
-            Modifier la description du {modele}
+            Modifier les informations du {modele}
           </DialogDescription>
         </DialogHeader>
-          <div className="flex flex-col items-start gap-4 mb-2">
-            <Label htmlFor="name" className="text-right">
-              Nom
-            </Label>
-            <Input
-              id="name"
-              defaultValue={titleCard}
-              placeholder={"Nom du projet"}
-              className="col-span-3 text-gray-500"
-              onChange={(e) => setTitle(e.target.value)}
-            />
-            <Label htmlFor="username" className="text-right">
-              Description
-            </Label>
-            <Textarea
-              defaultValue={descriptionCard}
-              placeholder={"Description du projet"}
-              className="col-span-3"
-              onChange={(e) => setDescription(e.target.value)}
-            />
-          </div>
+        <div className="flex flex-col items-start gap-4 mb-2">
+          <Label htmlFor="name" className="text-right">
+            Nom
+          </Label>
+          <Input
+            id="name"
+            defaultValue={titleCard}
+            placeholder={"Nom du projet"}
+            className="col-span-3 text-gray-500"
+            onChange={(e) => setTitle(e.target.value)}
+          />
+          <Label htmlFor="username" className="text-right">
+            Description
+          </Label>
+          <Textarea
+            defaultValue={descriptionCard}
+            placeholder={"Description du projet"}
+            className="col-span-3"
+            onChange={(e) => setDescription(e.target.value)}
+          />
+        </div>
         <DialogFooter>
           <Button
             type="submit"

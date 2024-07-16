@@ -93,136 +93,75 @@ function Tasks() {
     }
   };
 
+  const statusColumn = (
+    columnId: keyof Columns,
+    title: string,
+    color: string,
+    description: string
+  ) => {
+    return (
+      <div className="w-1/3 flex h-full flex-col px-3 items-center border-x-2">
+        <div className="w-full flex flex-col gap-2 pt-4 pb-10">
+          <h1 className="font-medium text-2xl">{title}</h1>
+          <p>{description}</p>
+        </div>
+        <Droppable droppableId={columnId}>
+          {(provided: DroppableProvided) => (
+            <div
+              ref={provided.innerRef}
+              {...provided.droppableProps}
+              className="h-full"
+            >
+              {columns[columnId].map((task: TaskProps, index: number) => (
+                <Draggable
+                  draggableId={task.id ? task.id.toString() : `task-${index}`}
+                  index={index}
+                  key={task.id ? task.id.toString() : `task-${index}`}
+                >
+                  {(provided) => (
+                    <div
+                      ref={provided.innerRef}
+                      {...provided.draggableProps}
+                      {...provided.dragHandleProps}
+                    >
+                      <TaskCard
+                        title={task.title}
+                        description={task.description}
+                        id={task.id}
+                        color={color}
+                      />
+                    </div>
+                  )}
+                </Draggable>
+              ))}
+              {provided.placeholder}
+            </div>
+          )}
+        </Droppable>
+      </div>
+    );
+  };
+
   if (isError || isLoading) return <div>chargement...</div>;
 
   return (
-    <div className="h-screen w-full flex flex-col px-8">
+    <div className="flex flex-col px-8 w-screen h-screen">
       <Header titlePage="Tâches" pageType="task" />
       <DragDropContext onDragEnd={onDragEnd}>
         <div className="w-full h-full flex justify-center">
-          <div className="w-1/3 flex h-full flex-col px-3 items-center">
-            <div className="w-full flex flex-col gap-2 py-4">
-              <h1 className="font-medium text-2xl">A Faire</h1>
-              <p className="ml-2">tâche(s) à faire</p>
-            </div>
-            <Droppable droppableId="to_do">
-              {(provided: DroppableProvided) => (
-                <div
-                  ref={provided.innerRef}
-                  {...provided.droppableProps}
-                  className="h-full"
-                >
-                  {columns.to_do.map((task: TaskProps, index: number) => (
-                    <Draggable
-                      draggableId={
-                        task.id ? task.id.toString() : `task-${index}`
-                      }
-                      index={index}
-                      key={task.id ? task.id.toString() : `task-${index}`}
-                    >
-                      {(provided) => (
-                        <div
-                          ref={provided.innerRef}
-                          {...provided.draggableProps}
-                          {...provided.dragHandleProps}
-                        >
-                          <TaskCard
-                            title={task.title}
-                            description={task.description}
-                            id={task.id}
-                            color={"bg-fontBlue"}
-                          />
-                        </div>
-                      )}
-                    </Draggable>
-                  ))}
-                  {provided.placeholder}
-                </div>
-              )}
-            </Droppable>
-          </div>
-          <div className="w-1/3 flex h-full flex-col border-x-2 px-3 items-center">
-            <div className="w-full flex flex-col gap-2 py-4">
-              <h1 className="font-medium text-2xl">En Cours</h1>
-              <p className="ml-2">tâche(s) en cours</p>
-            </div>
-            <Droppable droppableId="in_progress">
-              {(provided: DroppableProvided) => (
-                <div
-                  ref={provided.innerRef}
-                  {...provided.droppableProps}
-                  className="h-full"
-                >
-                  {columns.in_progress.map((task: TaskProps, index: number) => (
-                    <Draggable
-                      draggableId={
-                        task.id ? task.id.toString() : `task-${index}`
-                      }
-                      index={index}
-                      key={task.id ? task.id.toString() : `task-${index}`}
-                    >
-                      {(provided) => (
-                        <div
-                          ref={provided.innerRef}
-                          {...provided.dragHandleProps}
-                          {...provided.draggableProps}
-                        >
-                          <TaskCard
-                            title={task.title}
-                            description={task.description}
-                            id={task.id}
-                            color={"bg-fontYellow"}
-                          />
-                        </div>
-                      )}
-                    </Draggable>
-                  ))}
-                  {provided.placeholder}
-                </div>
-              )}
-            </Droppable>
-          </div>
-          <div className="w-1/3 flex h-full flex-col px-3 items-center">
-            <div className="w-full flex flex-col gap-2 py-4">
-              <h1 className="font-medium text-2xl">Terminé</h1>
-              <p className="ml-2">tâche(s) terminé(es)</p>
-            </div>
-            <Droppable droppableId="finished">
-              {(provided: DroppableProvided) => (
-                <div
-                  ref={provided.innerRef}
-                  {...provided.droppableProps}
-                  className="h-full"
-                >
-                  {columns.finished.map((task: TaskProps, index: number) => (
-                    <Draggable
-                      draggableId={
-                        task.id ? task.id.toString() : `task-${index}`
-                      }
-                      index={index}
-                      key={task.id ? task.id.toString() : `task-${index}`}
-                    >
-                      {(provided) => (
-                        <div
-                          ref={provided.innerRef}
-                          {...provided.dragHandleProps}
-                          {...provided.draggableProps}
-                        >
-                          <TaskCard
-                            title={task.title}
-                            description={task.description}
-                            id={task.id}
-                            color={"bg-fontGreen"}
-                          />
-                        </div>
-                      )}
-                    </Draggable>
-                  ))}
-                  {provided.placeholder}
-                </div>
-              )}
-            </Droppable>
-          </div>
+          {statusColumn("to_do", "A Faire", "bg-fontBlue", "tâche(s) à faire")}
+          {statusColumn(
+            "in_progress",
+            "En Cours",
+            "bg-fontYellow",
+            "tâche(s) en cours"
+          )}
+          {statusColumn(
+            "finished",
+            "Terminé",
+            "bg-fontGreen",
+            "tâche(s) terminé(es)"
+          )}
         </div>
       </DragDropContext>
     </div>

@@ -20,7 +20,7 @@ import { deleteWorkspace } from "@/lib/workspace.request";
 const DeleteWorkspace = React.forwardRef<
   HTMLButtonElement,
   DialogCardDeleteProps
->(({ dialogTitle, label, id }, ref) => {
+>(({ dialogTitle, id }, ref) => {
   const { toast } = useToast();
 
   const queryClient = useQueryClient();
@@ -62,7 +62,7 @@ const DeleteWorkspace = React.forwardRef<
         <div className="grid gap-4 py-4">
           <div className="flex flex-col items-start gap-4">
             <Label htmlFor="username" className="text-right">
-              {label}
+            Souhaitez-vous supprimer ?
             </Label>
           </div>
         </div>
