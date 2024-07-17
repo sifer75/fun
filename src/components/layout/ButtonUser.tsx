@@ -46,8 +46,8 @@ function ButtonUser() {
           </DialogTitle>
         </DialogHeader>
         <DialogDescription className="flex flex-col items-start py-8">
-          <Label htmlFor="username" className="text-right">
-            Cette action va procéder à la déconnexion de l'utilisateur
+          <Label htmlFor="username" className="flex justify-center w-full">
+            Cette action va déconnecter de l'utilisateur
           </Label>
         </DialogDescription>
         <DialogFooter>
