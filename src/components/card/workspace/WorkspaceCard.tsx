@@ -33,8 +33,8 @@ function WorkspaceCard({ title, description, id }: WorkspaceProps) {
 
   return (
     <Card className="w-56 md:w-72 lg:w-96">
-      <CardHeader className="flex flex-row justify-between items-center ">
-        <CardTitle className="truncate w-24 sm:w-32 md:w-40 lg:w-64">
+      <CardHeader className="flex flex-row justify-between items-center">
+        <CardTitle className="truncate w-24 sm:w-32 md:w-40 lg:w-64 h-7">
           {title}
         </CardTitle>
         <DropdownMenu>
@@ -79,6 +79,7 @@ function WorkspaceCard({ title, description, id }: WorkspaceProps) {
                 <DropdownMenuSeparator />
                 <DropdownMenuItem asChild>
                   <DeleteWorkspace
+                    title={title}
                     dialogTitle={"Supprimer le projet"}
                     id={id}
                   />

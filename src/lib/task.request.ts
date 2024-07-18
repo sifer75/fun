@@ -63,13 +63,34 @@ export const updateTaskStatus = async ({
     {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({status}),
+      body: JSON.stringify({ status }),
       credentials: "include",
     }
   );
   if (!response.ok) {
     throw new Error(
       `Erreur lors de la modification du status de la tâche ${id}`
+    );
+  }
+  return response.json();
+};
+
+export const updateTaskDate = async (data: {
+  id: number;
+  from: string;
+  to: string;
+}) => {
+  const { id, from, to } = data;
+  const response = await fetch(`http://localhost:3333/task/update/date/${id}`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ id, from, to }),
+    credentials: "include",
+  });
+
+  if (!response.ok) {
+    throw new Error(
+      `Erreur lors de la modification de la date de la tâche ${id}`
     );
   }
   return response.json();

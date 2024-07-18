@@ -5,11 +5,30 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { format } from "date-fns";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { Button } from "@/components/ui/button";
 import { TaskProps } from "@/lib/cards.utils";
+import { Ellipsis } from "lucide-react";
 import DeleteTask from "./DeleteTask";
 import EditTask from "./EditTask";
+import DateTask from "./DateTask";
 
-function TaskCard({ title, description, id, color }: TaskProps) {
+function TaskCard({ title, description, id, color, from, to }: TaskProps) {
+  const fromDate = from;
+  const toDate = to;
+  const dateFrom = from ? new Date(fromDate as string) : null;
+  const dateTo = to ? new Date(toDate as string) : null;
+  const formattedDateFrom = dateFrom
+    ? format(dateFrom, "dd/MM")
+    : format(Date.now(), "dd/MM");
+  const formattedDateTo = dateTo ? format(dateTo, "dd/MM") : "N/A";
   if (!id) return <div>id non trouvé</div>;
 
   return (
@@ -17,23 +36,48 @@ function TaskCard({ title, description, id, color }: TaskProps) {
       <CardHeader
         className={`pr-3 rounded-t-lg flex ${color} justify-start pb-10 pt-5 sm:py-5`}
       >
-        <div className="flex justify-between items-center w-full">
-          <CardTitle className="flex">
-            <p className="truncate w-12 md:w-20 lg:w-44">{title}</p>
-            <div className="flex w-fit">
-              <EditTask
-                modele={"tâche"}
-                titleCard={title}
-                descriptionCard={description}
-                id={id}
-              ></EditTask>
-              <DeleteTask dialogTitle={"Supprimer la tâche"} id={id} />
-            </div>
-          </CardTitle>
-        </div>
+        <CardTitle className="flex flex-col w-full">
+          <div className="flex items-center justify-center">
+            <p className="truncate w-24 sm:w-32 md:w-40 lg:w-64 h-7">{title}</p>
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="ghost">
+                  <Ellipsis />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent className="w-56">
+                <DropdownMenuItem asChild>
+                  <EditTask
+                    modele={"Tâche"}
+                    titleCard={title}
+                    descriptionCard={description}
+                    id={id}
+                    key={id}
+                  ></EditTask>
+                </DropdownMenuItem>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem asChild>
+                  {/* <DateTask id={id} key={id} /> */}
+                </DropdownMenuItem>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem asChild>
+                  <DeleteTask
+                    title={title}
+                    dialogTitle={"Supprimer la tâche"}
+                    id={id}
+                    key={id}
+                  />
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </div>
+          <p className="text-xs">
+            de {formattedDateFrom} jusqu'à {formattedDateTo}
+          </p>
+        </CardTitle>
       </CardHeader>
       <CardContent className="pt-5">
-        <CardDescription className="break-words truncate">
+        <CardDescription className="flex flex-col overflow-y-scroll">
           {description}
         </CardDescription>
       </CardContent>

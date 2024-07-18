@@ -34,7 +34,7 @@ function Header({ titlePage, pageType }: HeaderProps) {
       case "kanban":
         return <CreateKanban titleTypeCard={pageType} />;
       case "task":
-        return <CreateTask titleTypeCard={pageType} />;
+        return <CreateTask titleTypeCard={titlePage} />;
       default:
         return null;
     }
@@ -58,7 +58,7 @@ function Header({ titlePage, pageType }: HeaderProps) {
       <div className="h-20 border-b-2 border-gray-200 flex items-center gap-8">
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button variant="outline" className="w-40">
+            <Button variant="outline" className="w-40 my-10">
               <Avatar className="mr-2 w-5 h-5">
                 <AvatarImage
                   src={user.avatarUrl}
@@ -76,13 +76,12 @@ function Header({ titlePage, pageType }: HeaderProps) {
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
-        {titlePage}
-        <p>réglage</p>
+        {titlePage}s<p>Réglages</p>
       </div>
 
       <div className="border-b pb-4">
         <div className="w-full flex justify-between items-center pt-4">
-          <h1 className="text-4xl font-medium mb-2">Mes {titlePage}</h1>
+          <h1 className="text-4xl font-medium mb-2">Mes {titlePage}s</h1>
           {renderCreateButton()}
         </div>
         <span className="text-gray-500 tewt-xl font-light">

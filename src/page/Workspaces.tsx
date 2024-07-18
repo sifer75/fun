@@ -33,7 +33,7 @@ function Workspaces() {
   );
   return (
     <div className="flex flex-col px-8">
-      <Header titlePage="Projets" pageType="workspace" />
+      <Header titlePage="Projet" pageType="workspace" />
       <div className="pt-6 pb-10 flex  gap-8 justify-between">
         <Menubar className="w-fit">
           <MenubarMenu>
@@ -54,11 +54,12 @@ function Workspaces() {
         />
       </div>
       <div className="flex flex-wrap gap-8 sm:gap-12 md:gap-16 lg:gap-20 justify-center">
-        {filteredWorkspaces.map((workspace: WorkspaceProps) => (
+        {filteredWorkspaces.map((workspace: WorkspaceProps, index: number) => (
           <WorkspaceCard
             title={workspace.title}
             description={workspace.description}
             id={workspace.id}
+            key={index}
           />
         ))}
       </div>

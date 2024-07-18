@@ -17,4 +17,6 @@ export interface TaskProps {
   id?: number;
   status?: "to_do" | "in_progress" | "finished";
   color?: string;
+  from?: string;
+  to?: string;
 }

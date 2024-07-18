@@ -17,7 +17,7 @@ import { useParams } from "react-router-dom";
 import { Textarea } from "@/components/ui/textarea";
 import { createTask } from "@/lib/task.request";
 
-function CreateTask({ titleTypeCard }: { titleTypeCard: string }) {
+function CreateTask({ titleTypeCard, ...props }: { titleTypeCard: string }) {
   const queryClient = useQueryClient();
   const { id } = useParams<{ id: string }>();
   const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
@@ -38,7 +38,7 @@ function CreateTask({ titleTypeCard }: { titleTypeCard: string }) {
   });
 
   return (
-    <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+    <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen} {...props}>
       <DialogTrigger asChild>
         <Button>Création de la {titleTypeCard}</Button>
       </DialogTrigger>

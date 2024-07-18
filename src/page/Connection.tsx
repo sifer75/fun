@@ -22,7 +22,6 @@ function Connection() {
       window.removeEventListener("resize", handleResize);
     };
   }, []);
-  console.log(windowWidth);
   const appScreen = windowWidth < 640;
   return (
     <>

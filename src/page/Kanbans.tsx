@@ -30,7 +30,7 @@ function Kanbans() {
 
   return (
     <div className="flex flex-col px-8">
-      <Header titlePage="Kanbans" pageType="kanban" />
+      <Header titlePage="Kanban" pageType="kanban" />
       <div className="pt-6 pb-10 flex flex-col gap-8 justify-between sm:flex-row sm:justify-between">
         <Menubar className="w-fit">
           <MenubarMenu>
@@ -57,11 +57,12 @@ function Kanbans() {
         />
       </div>
       <div className="flex flex-wrap gap-8 sm:gap-12 md:gap-16 lg:gap-20 justify-center">
-        {filteredKanbans.map((kanban: KanbanProps) => (
+        {filteredKanbans.map((kanban: KanbanProps, index: number) => (
           <KanbanCard
             title={kanban.title}
             workspaceId={kanban.workspaceId}
             id={kanban.id}
+            key={index}
           />
         ))}
       </div>

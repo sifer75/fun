@@ -10,7 +10,6 @@ import {
 import { Label } from "@/components/ui/label";
 import { Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { ToastAction } from "@/components/ui/toast";
 import { useToast } from "@/components/ui/use-toast";
 import React, { useState } from "react";
 import { DialogCardDeleteProps } from "@/lib/dialogCard.utils";
@@ -18,10 +17,10 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { deleteKanban } from "@/lib/kanban.request";
 
 const DeleteKanban = React.forwardRef<HTMLButtonElement, DialogCardDeleteProps>(
-  ({ dialogTitle, id }, ref) => {
+  (props, ref) => {
     const { toast } = useToast();
-
     const queryClient = useQueryClient();
+    const { dialogTitle, id, title } = props;
     const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
 
     const mutation = useMutation({
@@ -31,11 +30,9 @@ const DeleteKanban = React.forwardRef<HTMLButtonElement, DialogCardDeleteProps>(
       },
       onSuccess: async () => {
         toast({
-          title: "Scheduled: Catch up ",
-          description: "Friday, February 10, 2023 at 5:57 PM",
-          action: (
-            <ToastAction altText="Goto schedule to undo">Undo</ToastAction>
-          ),
+          variant: "destructive",
+          title: "Kanban supprimé",
+          description: `Le projet ${title} a été supprimé`,
         });
         setIsDialogOpen(false);
         queryClient.invalidateQueries({ queryKey: ["kanban"] });

@@ -7,6 +7,7 @@ export interface DialogCardProps {
 }
 
 export interface DialogCardDeleteProps {
+  title: string;
   dialogTitle: string;
   id: number;
 }

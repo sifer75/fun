@@ -10,7 +10,6 @@ import {
 import { Label } from "@/components/ui/label";
 import { Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { ToastAction } from "@/components/ui/toast";
 import { useToast } from "@/components/ui/use-toast";
 import React, { useState } from "react";
 import { DialogCardDeleteProps } from "@/lib/dialogCard.utils";
@@ -20,9 +19,9 @@ import { deleteWorkspace } from "@/lib/workspace.request";
 const DeleteWorkspace = React.forwardRef<
   HTMLButtonElement,
   DialogCardDeleteProps
->(({ dialogTitle, id }, ref) => {
+>((props, ref) => {
   const { toast } = useToast();
-
+  const { dialogTitle, id, title } = props;
   const queryClient = useQueryClient();
   const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
 
@@ -33,9 +32,9 @@ const DeleteWorkspace = React.forwardRef<
     },
     onSuccess: async () => {
       toast({
-        title: "Scheduled: Catch up ",
-        description: "Friday, February 10, 2023 at 5:57 PM",
-        action: <ToastAction altText="Goto schedule to undo">Undo</ToastAction>,
+        variant: "destructive",
+        title: "Workspace supprimé",
+        description: `Le projet ${title} a été supprimé`,
       });
       setIsDialogOpen(false);
       queryClient.invalidateQueries({ queryKey: ["workspace"] });
@@ -62,7 +61,7 @@ const DeleteWorkspace = React.forwardRef<
         <div className="grid gap-4 py-4">
           <div className="flex flex-col items-start gap-4">
             <Label htmlFor="username" className="text-right">
-            Souhaitez-vous supprimer ?
+              Souhaitez-vous supprimer ?
             </Label>
           </div>
         </div>

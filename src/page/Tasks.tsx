@@ -129,6 +129,9 @@ function Tasks() {
                         description={task.description}
                         id={task.id}
                         color={color}
+                        from={task.from}
+                        to={task.to}
+                        key={index}
                       />
                     </div>
                   )}
@@ -146,9 +149,9 @@ function Tasks() {
 
   return (
     <div className="flex flex-col px-8 w-screen h-screen">
-      <Header titlePage="Tâches" pageType="task" />
+      <Header titlePage="Tâche" pageType="task" />
       <DragDropContext onDragEnd={onDragEnd}>
-        <div className="w-full h-full flex justify-center">
+        <div className="w-full flex-1 flex justify-center">
           {statusColumn("to_do", "A Faire", "bg-fontBlue", "tâche(s) à faire")}
           {statusColumn(
             "in_progress",
