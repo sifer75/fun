@@ -1,5 +1,4 @@
 import WorkspaceCard from "@/components/card/workspace/WorkspaceCard";
-import Header from "@/components/layout/Header";
 import { Input } from "@/components/ui/input";
 import { Menubar, MenubarMenu, MenubarTrigger } from "@/components/ui/menubar";
 import { Toaster } from "@/components/ui/toaster";
@@ -9,63 +8,53 @@ import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 
 function Workspaces() {
-  const {
-    data: workspaces,
-    isError,
-    isLoading,
-  } = useQuery({
-    queryKey: ["workspace"],
-    queryFn: getAllWorkspace,
-  });
-  const [searchTitle, setSearchTitle] = useState<string>("");
-  if (!workspaces) {
-    return null;
-  }
-  if (isError || isLoading)
-    return (
-      <div className="h-screen w-screen flex flex-col px-8">
-        <Header titlePage="Projets" pageType="workspace" />
-      </div>
+    const { data: workspaces } = useQuery({
+        queryKey: ["workspace"],
+        queryFn: getAllWorkspace,
+    });
+    const [searchTitle, setSearchTitle] = useState<string>("");
+    if (!workspaces) {
+        return null;
+    }
+    const filteredWorkspaces = workspaces?.filter((workspace: WorkspaceProps) =>
+        workspace.title.toLowerCase().includes(searchTitle.toLowerCase())
     );
-
-  const filteredWorkspaces = workspaces?.filter((workspace: WorkspaceProps) =>
-    workspace.title.toLowerCase().includes(searchTitle.toLowerCase())
-  );
-  return (
-    <div className="flex flex-col px-8">
-      <Header titlePage="Projet" pageType="workspace" />
-      <div className="pt-6 pb-10 flex  gap-8 justify-between">
-        <Menubar className="w-fit">
-          <MenubarMenu>
-            <MenubarTrigger>Tout</MenubarTrigger>
-          </MenubarMenu>
-          <MenubarMenu>
-            <MenubarTrigger>Archivé</MenubarTrigger>
-          </MenubarMenu>
-        </Menubar>
-        <Input
-          className="w-40 sm:w-60 md:w-72 lg:w-80"
-          type="text"
-          placeholder="Rechercher..."
-          value={searchTitle}
-          onChange={(e) => {
-            setSearchTitle(e.target.value);
-          }}
-        />
-      </div>
-      <div className="flex flex-wrap gap-8 sm:gap-12 md:gap-16 lg:gap-20 justify-center">
-        {filteredWorkspaces.map((workspace: WorkspaceProps, index: number) => (
-          <WorkspaceCard
-            title={workspace.title}
-            description={workspace.description}
-            id={workspace.id}
-            key={index}
-          />
-        ))}
-      </div>
-      <Toaster />
-    </div>
-  );
+    return (
+        <>
+            <div className="pt-6 pb-10 flex  gap-8 justify-between">
+                <Menubar className="w-fit">
+                    <MenubarMenu>
+                        <MenubarTrigger>Tout</MenubarTrigger>
+                    </MenubarMenu>
+                    <MenubarMenu>
+                        <MenubarTrigger>Archivé</MenubarTrigger>
+                    </MenubarMenu>
+                </Menubar>
+                <Input
+                    className="w-40 sm:w-60 md:w-72 lg:w-80"
+                    type="text"
+                    placeholder="Rechercher..."
+                    value={searchTitle}
+                    onChange={(e) => {
+                        setSearchTitle(e.target.value);
+                    }}
+                />
+            </div>
+            <div className="flex flex-wrap gap-8 sm:gap-12 md:gap-16 lg:gap-20 justify-center">
+                {filteredWorkspaces.map(
+                    (workspace: WorkspaceProps, index: number) => (
+                        <WorkspaceCard
+                            title={workspace.title}
+                            description={workspace.description}
+                            id={workspace.id}
+                            key={index}
+                        />
+                    )
+                )}
+            </div>
+            <Toaster />
+        </>
+    );
 }
 
 export default Workspaces;
