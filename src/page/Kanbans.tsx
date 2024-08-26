@@ -6,6 +6,7 @@ import { KanbanProps, WorkspaceProps } from "@/lib/cards.utils";
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import { useParams } from "react-router-dom";
+import CreateKanban from "@/components/card/kanban/CreateKanban";
 
 function Kanbans() {
     const { id } = useParams<{ id: string }>();
@@ -53,6 +54,7 @@ function Kanbans() {
                         setSearchTitle(e.target.value);
                     }}
                 />
+                <CreateKanban />
             </div>
             <div className="flex flex-wrap gap-8 sm:gap-12 md:gap-16 lg:gap-20 justify-center">
                 {filteredKanbans.map((kanban: KanbanProps, index: number) => (
