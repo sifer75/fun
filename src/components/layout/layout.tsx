@@ -26,7 +26,7 @@ function WorkspaceElement({ workspace }: { workspace: WorkspaceProps }) {
     } = useQuery<KanbanProps[]>({
         queryKey: ["kanban", workspace.id],
         queryFn: () => getAllKanban(workspace.id),
-        enabled: openFolder,
+        enabled: !!openFolder,
     });
 
     if (kanbanError || kanbanLoading) return <div>chargement...</div>;
@@ -42,7 +42,6 @@ function WorkspaceElement({ workspace }: { workspace: WorkspaceProps }) {
                 {openFolder ? <FolderOpen /> : <FolderClosed />}
                 <span className="font-semibold">{workspace.title}</span>
             </div>
-
             {openFolder && kanbans ? (
                 <div className="flex flex-col ml-4 mt-2 gap-2">
                     {kanbans.map((kanban: KanbanProps) => (
