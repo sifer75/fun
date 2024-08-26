@@ -16,6 +16,7 @@ import { updateTask } from "@/lib/task.request";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import DateTask from "./DateTask";
 
 const EditTask = React.forwardRef<HTMLButtonElement, DialogCardProps>(
   (props, ref) => {
@@ -72,6 +73,8 @@ const EditTask = React.forwardRef<HTMLButtonElement, DialogCardProps>(
               className="col-span-3 text-gray-500 mb-2"
               onChange={(e) => setTitle(e.target.value)}
             />
+            <DateTask id={id} key={id} />
+
             <Label htmlFor="username" className="text-right">
               Description
             </Label>

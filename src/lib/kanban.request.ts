@@ -20,7 +20,6 @@ export const getAllKanban = async (workspaceId: number) => {
       method: "GET",
       headers: { "Content-Type": "application/json" },
       credentials: "include",
-
     }
   );
   if (!response.ok) {
