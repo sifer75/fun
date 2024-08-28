@@ -47,7 +47,6 @@ function TaskCard({ title, description, id, color, from, to }: TaskProps) {
               <DropdownMenuContent className="w-56">
                 <DropdownMenuItem asChild>
                   <EditTask
-                    modele={"Tâche"}
                     titleCard={title}
                     descriptionCard={description}
                     id={id}
@@ -56,11 +55,7 @@ function TaskCard({ title, description, id, color, from, to }: TaskProps) {
                 <DropdownMenuItem asChild></DropdownMenuItem>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem asChild>
-                  <DeleteTask
-                    title={title}
-                    dialogTitle={"Supprimer la tâche"}
-                    id={id}
-                  />
+                  <DeleteTask title={title} id={id} />
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>

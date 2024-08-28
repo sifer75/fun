@@ -21,7 +21,7 @@ const DeleteWorkspace = React.forwardRef<
   DialogCardDeleteProps
 >((props, ref) => {
   const { toast } = useToast();
-  const { dialogTitle, id, title } = props;
+  const { id, title } = props;
   const queryClient = useQueryClient();
   const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
 
@@ -48,6 +48,7 @@ const DeleteWorkspace = React.forwardRef<
           ref={ref}
           variant="ghost"
           className="flex items-center justify-start px-2 py-1.5 rounded-sm h-8 w-full"
+          onClick={(event) => event.stopPropagation()}
         >
           <Trash2 className="w-4 h-4 mr-2" />
           Supprimer
@@ -55,7 +56,7 @@ const DeleteWorkspace = React.forwardRef<
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle className="text-3xl">{dialogTitle}</DialogTitle>
+          <DialogTitle className="text-3xl">Supprimer le projet</DialogTitle>
           <DialogDescription>Cette action est irréversible !</DialogDescription>
         </DialogHeader>
         <div className="grid gap-4 py-4">
@@ -68,7 +69,8 @@ const DeleteWorkspace = React.forwardRef<
         <DialogFooter>
           <Button
             variant="destructive"
-            onClick={() => {
+            onClick={(event) => {
+              event.stopPropagation();
               mutation.mutate(id);
             }}
           >

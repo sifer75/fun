@@ -1,128 +1,118 @@
-import { ReactNode, useState } from "react";
+import { ReactNode, useEffect, useState } from "react";
 import {
-    DropdownMenu,
-    DropdownMenuContent,
-    DropdownMenuItem,
-    DropdownMenuLabel,
-    DropdownMenuSeparator,
-    DropdownMenuTrigger,
-} from "../ui/dropdown-menu";
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { Button } from "../ui/button";
 import { Avatar, AvatarImage } from "../ui/avatar";
 import ButtonUser from "./ButtonUser";
 import { useQuery } from "@tanstack/react-query";
 import { getUserInfo } from "@/lib/user.request";
-import { FolderClosed, FolderOpen } from "lucide-react";
-import { getAllWorkspace } from "@/lib/workspace.request";
-import { KanbanProps, WorkspaceProps } from "@/lib/cards.utils";
-import { getAllKanban } from "@/lib/kanban.request";
+import { HomeSimple, NavArrowRight, Search, Settings } from "iconoir-react";
+import { Link, useParams } from "react-router-dom";
+import { Input } from "../ui/input";
+import MenuListWorkspace from "./MenuListWorkspace";
+import MenuListElements from "./MenuListElements";
 
-function WorkspaceElement({ workspace }: { workspace: WorkspaceProps }) {
-    const [openFolder, setOpenFolder] = useState<boolean>(false);
-    const {
-        data: kanbans,
-        isError: kanbanError,
-        isLoading: kanbanLoading,
-    } = useQuery<KanbanProps[]>({
-        queryKey: ["kanban", workspace.id],
-        queryFn: () => getAllKanban(workspace.id),
-        enabled: !!openFolder,
-    });
+function MenuAction() {
+  const { workspaceId } = useParams<{ workspaceId: string | undefined }>();
+  const [selectMenu, setSelectMenu] = useState<"WORKSPACES" | "ELEMENTS">(
+    workspaceId ? "ELEMENTS" : "WORKSPACES"
+  );
+  useEffect(() => {
+    console.log(workspaceId, "id");
+    if (!workspaceId) {
+      setSelectMenu("WORKSPACES");
+    } else {
+      setSelectMenu("ELEMENTS");
+    }
+  }, [workspaceId]);
 
-    if (kanbanError || kanbanLoading) return <div>chargement...</div>;
-
-    return (
-        <div className="w-full">
-            <div
-                onClick={() => {
-                    setOpenFolder(!openFolder);
-                }}
-                className="w-full border border-transparent hover:border-black rounded-md px-2 py-1 flex flex-row items-center gap-2"
-            >
-                {openFolder ? <FolderOpen /> : <FolderClosed />}
-                <span className="font-semibold">{workspace.title}</span>
-            </div>
-            {openFolder && kanbans ? (
-                <div className="flex flex-col ml-4 mt-2 gap-2">
-                    {kanbans.map((kanban: KanbanProps) => (
-                        <div
-                            key={kanban.id}
-                            className="px-2 py-1 border border-transparent hover:border-black rounded-md flex flex-row items-center justify-between"
-                        >
-                            <span className="text-sm font-semibold">
-                                {kanban.title}
-                            </span>
-                            <span className="text-xs">
-                                {kanban.title} / {kanban.title}
-                            </span>
-                        </div>
-                    ))}
-                </div>
-            ) : null}
-        </div>
-    );
+  return (
+    <div className="h-full w-full overflow-hidden">
+      <div
+        className={`w-[200%] h-full grid grid-cols-2 transition-all duration-500 ease-in-out ${
+          selectMenu === "WORKSPACES" ? "translate-x-0" : "-translate-x-1/2"
+        }`}
+      >
+        <MenuListWorkspace setSelectMenu={setSelectMenu} />
+        <MenuListElements setSelectMenu={setSelectMenu} />
+      </div>
+    </div>
+  );
 }
-
-function Workspace() {
-    const {
-        data: workspaces,
-        isError: workspaceError,
-        isLoading: workspaceLoading,
-    } = useQuery({ queryKey: ["workspace"], queryFn: getAllWorkspace });
-
-    if (!workspaces) return <div>workspaces non trouvé</div>;
-    if (workspaceError || workspaceLoading) return <div>chargement...</div>;
-
-    return (
-        <div className="flex flex-col gap-4 w-full h-full py-10">
-            {workspaces.map((workspace: WorkspaceProps) => (
-                <WorkspaceElement key={workspace.id} workspace={workspace} />
-            ))}
-        </div>
-    );
-}
-
 function Sidebar() {
-    const {
-        data: user,
-        isError: userError,
-        isLoading: userLoading,
-    } = useQuery({ queryKey: ["user"], queryFn: getUserInfo });
+  const {
+    data: user,
+    isError: userError,
+    isLoading: userLoading,
+  } = useQuery({ queryKey: ["user"], queryFn: getUserInfo });
 
-    if (userError || userLoading) return <div>chargement...</div>;
+  if (userError || userLoading) return <div>chargement...</div>;
 
-    return (
-        <div className="h-full w-60 self-center border flex flex-col justify-between items-center p-4">
-            <h1 className="text-center text-2xl font-bold">Logo</h1>
-            <Workspace />
-            <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                    <Button variant="outline" className="w-40 my-10">
-                        <Avatar className="mr-2 w-5 h-5">
-                            <AvatarImage
-                                src={user.avatarUrl}
-                                alt="image de l'utilisateur"
-                            />
-                        </Avatar>
-                        <p className="text-lg">{user.name}</p>
-                    </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent>
-                    <DropdownMenuLabel>Mon compte</DropdownMenuLabel>
-                    <DropdownMenuSeparator />
-                    <DropdownMenuItem asChild>
-                        <ButtonUser />
-                    </DropdownMenuItem>
-                </DropdownMenuContent>
-            </DropdownMenu>
+  return (
+    <div className="h-screen w-60 self-center border flex flex-col gap-12  items-center p-4">
+      <h1 className="text-center text-xl font-medium w-full flex flex-start">
+        renotion
+      </h1>
+      <div className="w-full relative rounded-xl flex flex-row items-center focus:border-4">
+        <Search className="absolute left-2 w-4 h-4" />
+        <Input
+          className="h-10 w-full py-2 pl-7 pr-2.5 rounded-xl"
+          type="text"
+          placeholder="Search..."
+          //   value={searchTitle}
+          //   onChange={(e) => {
+          //     setSearchTitle(e.target.value);
+          //   }}
+        />
+      </div>
+      <div className="flex flex-col gap-3 w-full text-sm">
+        <div className="flex flex-row justify-between">
+          <Link to="/workspace" className="flex flex-row gap-2 items-center">
+            <HomeSimple className="w-4 h-4" />
+            <h2>Home</h2>
+          </Link>
+          <NavArrowRight className="w-4 h-4" />
         </div>
-    );
+        <div className="flex flex-row justify-between">
+          <div className="flex flex-row gap-2 items-center">
+            <Settings className="w-4 h-4" />
+            <h2>Settings</h2>
+          </div>
+          <NavArrowRight className="w-4 h-4" />
+        </div>
+      </div>
+      <MenuAction />
+      <DropdownMenu>
+        <DropdownMenuTrigger asChild>
+          <Button variant="outline" className="w-40">
+            <Avatar className="mr-2 w-5 h-5">
+              <AvatarImage src={user.avatarUrl} alt="image de l'utilisateur" />
+            </Avatar>
+            <p className="text-lg">{user.name}</p>
+          </Button>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent>
+          <DropdownMenuLabel>Mon compte</DropdownMenuLabel>
+          <DropdownMenuSeparator />
+          <DropdownMenuItem asChild>
+            <ButtonUser />
+          </DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenu>
+    </div>
+  );
 }
 export function Layout({ children }: { children: ReactNode }) {
-    return (
-        <div className="h-screen w-screen flex flex-row">
-            <Sidebar />
-            <main className="flex-1 p-5">{children}</main>
-        </div>
-    );
+  return (
+    <div className="h-screen w-screen flex flex-row ">
+      <Sidebar />
+      <main className="flex-1 p-5 overflow-scroll">{children}</main>
+    </div>
+  );
 }

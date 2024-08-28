@@ -1,6 +1,5 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  darkMode: ["class"],
   content: [
     "./pages/**/*.{ts,tsx}",
     "./components/**/*.{ts,tsx}",
@@ -22,6 +21,7 @@ module.exports = {
         fontBlue: "#E1F1FF",
         fontYellow: "#FFE8AF",
         fontGreen: "#CCF1D6",
+        buttonHover: "#F2F1DF",
       },
       keyframes: {
         "accordion-down": {

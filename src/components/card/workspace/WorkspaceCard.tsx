@@ -15,45 +15,42 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { ArrowUpRight, ArchiveRestore } from "lucide-react";
 import EditWorkspace from "./EditWorkspace";
 import DeleteWorkspace from "./DeleteWorkspace";
 import { WorkspaceProps } from "@/lib/cards.utils";
 import { useState } from "react";
 import { Ellipsis } from "lucide-react";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 function WorkspaceCard({ title, description, id }: WorkspaceProps) {
   const [isDropdownOpen, setIsDropdownOpen] = useState<boolean>(false);
-
+  const navigate = useNavigate();
   if (!id) return <div>id non défini</div>;
 
   const handleDropdownClose = () => {
     setIsDropdownOpen(false);
   };
 
+  const handleCardClick = () => {
+    navigate(`/workspace/${id}`);
+  };
+
   return (
-    <Card className="w-56 md:w-72 lg:w-96">
+    <Card
+      className="w-56 md:w-72 lg:w-96 hover:translate-y-3  ease-in-out delay-100 duration-150"
+      onClick={handleCardClick}
+    >
       <CardHeader className="flex flex-row justify-between items-center">
         <CardTitle className="truncate w-24 sm:w-32 md:w-40 lg:w-64 h-7">
           {title}
         </CardTitle>
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Link
-              to={`/workspace/${id}`}
-              className="bg-black py-2 px-4 rounded-md ml-4 "
-            >
-              <ArrowUpRight className="text-white" />
-            </Link>
-          </DropdownMenuTrigger>
-        </DropdownMenu>
       </CardHeader>
       <CardContent className="flex justify-end pb-2">
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button
               variant="ghost"
-              onClick={() => {
+              onClick={(event) => {
+                event.stopPropagation();
                 setIsDropdownOpen(!isDropdownOpen);
               }}
             >
@@ -61,28 +58,19 @@ function WorkspaceCard({ title, description, id }: WorkspaceProps) {
             </Button>
           </DropdownMenuTrigger>
           {isDropdownOpen && (
-            <DropdownMenuContent className="w-56">
+            <DropdownMenuContent className="w-56 z-50">
               <DropdownMenuGroup>
                 <DropdownMenuItem asChild>
                   <EditWorkspace
-                    modele={"Projet"}
                     titleCard={title}
                     descriptionCard={description}
                     id={id}
                     onClose={handleDropdownClose}
                   />
                 </DropdownMenuItem>
-                <DropdownMenuItem className="w-full">
-                  <ArchiveRestore className="mr-2 h-4 w-4" />
-                  Archiver
-                </DropdownMenuItem>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem asChild>
-                  <DeleteWorkspace
-                    title={title}
-                    dialogTitle={"Supprimer le projet"}
-                    id={id}
-                  />
+                  <DeleteWorkspace title={title} id={id} />
                 </DropdownMenuItem>
               </DropdownMenuGroup>
             </DropdownMenuContent>

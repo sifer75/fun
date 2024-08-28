@@ -20,7 +20,7 @@ import { updateKanban } from "@/lib/kanban.request";
 
 const EditKanban = React.forwardRef<HTMLButtonElement, DialogCardProps>(
   (props, ref) => {
-    const { titleCard, id, modele } = props;
+    const { titleCard, id } = props;
     const queryClient = useQueryClient();
 
     const [title, setTitle] = useState<string>(titleCard);
@@ -44,6 +44,7 @@ const EditKanban = React.forwardRef<HTMLButtonElement, DialogCardProps>(
             ref={ref}
             variant="ghost"
             className="flex items-center justify-start  px-2 py-1.5 rounded-sm h-8 w-full"
+            onClick={(event) => event.stopPropagation()}
           >
             <PencilLine className="w-4 h-4 mr-2" />
             Éditer
@@ -52,9 +53,9 @@ const EditKanban = React.forwardRef<HTMLButtonElement, DialogCardProps>(
         <DialogContent className="sm:max-w-[425px]">
           <DialogHeader>
             <DialogTitle className="text-3xl">
-              Modifier le nom du {modele}
+              Modifier le nom du Kanban
             </DialogTitle>
-            <DialogDescription>Modifier le nom du {modele}</DialogDescription>
+            <DialogDescription>Modifier le nom du Kanban</DialogDescription>
           </DialogHeader>
           <div className="flex flex-col items-start gap-4 mb-2 py-4">
             <Label htmlFor="name" className="text-right">
@@ -66,12 +67,14 @@ const EditKanban = React.forwardRef<HTMLButtonElement, DialogCardProps>(
               placeholder={"Nom du projet"}
               className="col-span-3 text-gray-500"
               onChange={(e) => setTitle(e.target.value)}
+              onClick={(event) => event.stopPropagation()}
             />
           </div>
           <DialogFooter>
             <Button
               type="submit"
-              onClick={() => {
+              onClick={(event) => {
+                event.stopPropagation();
                 mutation.mutate({
                   id: id,
                   title: title,

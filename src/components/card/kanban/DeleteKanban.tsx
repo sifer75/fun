@@ -20,7 +20,7 @@ const DeleteKanban = React.forwardRef<HTMLButtonElement, DialogCardDeleteProps>(
   (props, ref) => {
     const { toast } = useToast();
     const queryClient = useQueryClient();
-    const { dialogTitle, id, title } = props;
+    const { id, title } = props;
     const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
 
     const mutation = useMutation({
@@ -45,6 +45,7 @@ const DeleteKanban = React.forwardRef<HTMLButtonElement, DialogCardDeleteProps>(
             ref={ref}
             variant="ghost"
             className="flex items-center justify-start px-2 py-1.5 rounded-sm h-8 w-full"
+            onClick={(event) => event.stopPropagation()}
           >
             <Trash2 className="w-4 h-4 mr-2" />
             Supprimer
@@ -52,7 +53,7 @@ const DeleteKanban = React.forwardRef<HTMLButtonElement, DialogCardDeleteProps>(
         </DialogTrigger>
         <DialogContent className="sm:max-w-[425px]">
           <DialogHeader>
-            <DialogTitle className="text-3xl">{dialogTitle}</DialogTitle>
+            <DialogTitle className="text-3xl">Supprimer le kanban</DialogTitle>
             <DialogDescription>
               Cette action est irréversible !
             </DialogDescription>
@@ -66,7 +67,8 @@ const DeleteKanban = React.forwardRef<HTMLButtonElement, DialogCardDeleteProps>(
           <DialogFooter>
             <Button
               variant="destructive"
-              onClick={() => {
+              onClick={(event) => {
+                event.stopPropagation();
                 mutation.mutate(id);
               }}
             >

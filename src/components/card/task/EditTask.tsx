@@ -20,7 +20,7 @@ import DateTask from "./DateTask";
 
 const EditTask = React.forwardRef<HTMLButtonElement, DialogCardProps>(
   (props, ref) => {
-    const { titleCard, descriptionCard = "", id, modele, onClose } = props;
+    const { titleCard, descriptionCard = "", id, onClose } = props;
     const queryClient = useQueryClient();
 
     const [title, setTitle] = useState<string>(titleCard);
@@ -58,9 +58,9 @@ const EditTask = React.forwardRef<HTMLButtonElement, DialogCardProps>(
         <DialogContent className="sm:max-w-[425px]">
           <DialogHeader>
             <DialogTitle className="text-3xl">
-              Modifier le nom de la {modele}
+              Modifier le nom de la Tâche
             </DialogTitle>
-            <DialogDescription>Modifier la {modele}</DialogDescription>
+            <DialogDescription>Modifier la Tâche</DialogDescription>
           </DialogHeader>
           <div className="flex flex-col items-start gap-4 mb-2 py-4">
             <Label htmlFor="name" className="text-right">

@@ -1,12 +1,12 @@
 import { Button } from "@/components/ui/button";
 import {
-    Dialog,
-    DialogContent,
-    DialogDescription,
-    DialogFooter,
-    DialogHeader,
-    DialogTitle,
-    DialogTrigger,
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -18,75 +18,74 @@ import { Textarea } from "@/components/ui/textarea";
 import { createTask } from "@/lib/task.request";
 
 function CreateTask({ ...props }) {
-    const queryClient = useQueryClient();
-    const { id } = useParams<{ id: string }>();
-    const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
-    const [title, setTitle] = useState<string>("");
-    const [description, setDescription] = useState<string>("");
-    const kanbanId = Number(id);
-    const mutation = useMutation({
-        mutationFn: (data: TaskProps) => createTask(data),
-        onError: (error) => {
-            console.log(error);
-        },
-        onSuccess: async () => {
-            queryClient.invalidateQueries({
-                queryKey: ["task", kanbanId],
-            });
-            setIsDialogOpen(false);
-        },
-    });
+  const queryClient = useQueryClient();
+  const { elementId } = useParams<{ elementId: string }>();
+  const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
+  const [title, setTitle] = useState<string>("");
+  const [description, setDescription] = useState<string>("");
+  const mutation = useMutation({
+    mutationFn: (data: TaskProps) => createTask(data),
+    onError: (error) => {
+      console.log(error);
+    },
+    onSuccess: async () => {
+      queryClient.invalidateQueries({
+        queryKey: ["task", elementId],
+      });
+      setIsDialogOpen(false);
+    },
+  });
 
-    return (
-        <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen} {...props}>
-            <DialogTrigger asChild>
-                <Button>Création de la task</Button>
-            </DialogTrigger>
-            <DialogContent className="sm:max-w-[425px]">
-                <DialogHeader>
-                    <DialogTitle className="text-3xl">
-                        Créer une task
-                    </DialogTitle>
-                    <DialogDescription>
-                        Ajouter une nouvelle task
-                    </DialogDescription>
-                </DialogHeader>
-                <div className="grid gap-4 py-4">
-                    <div className="flex flex-col items-start gap-4 mb-2">
-                        <Label htmlFor="name" className="text-right">
-                            Titre
-                        </Label>
-                        <Input
-                            id="name"
-                            placeholder={`Nom du task`}
-                            className="col-span-3 text-gray-500"
-                            onChange={(e) => setTitle(e.target.value)}
-                        />
-                    </div>
-                    <div className="flex flex-col items-start gap-4">
-                        <Label htmlFor="username" className="text-right">
-                            Description
-                        </Label>
-                        <Textarea
-                            placeholder={`Décrire la task`}
-                            className="col-span-3"
-                            onChange={(e) => setDescription(e.target.value)}
-                        />
-                    </div>
-                </div>
-                <DialogFooter>
-                    <Button
-                        type="submit"
-                        onClick={() => {
-                            mutation.mutate({ title, description, kanbanId });
-                        }}
-                    >
-                        Ajouter
-                    </Button>
-                </DialogFooter>
-            </DialogContent>
-        </Dialog>
-    );
+  return (
+    <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen} {...props}>
+      <DialogTrigger asChild>
+        <Button>Création de la task</Button>
+      </DialogTrigger>
+      <DialogContent className="sm:max-w-[425px]">
+        <DialogHeader>
+          <DialogTitle className="text-3xl">Créer une task</DialogTitle>
+          <DialogDescription>Ajouter une nouvelle task</DialogDescription>
+        </DialogHeader>
+        <div className="grid gap-4 py-4">
+          <div className="flex flex-col items-start gap-4 mb-2">
+            <Label htmlFor="name" className="text-right">
+              Titre
+            </Label>
+            <Input
+              id="name"
+              placeholder={`Nom du task`}
+              className="col-span-3 text-gray-500"
+              onChange={(e) => setTitle(e.target.value)}
+            />
+          </div>
+          <div className="flex flex-col items-start gap-4">
+            <Label htmlFor="username" className="text-right">
+              Description
+            </Label>
+            <Textarea
+              placeholder={`Décrire la task`}
+              className="col-span-3"
+              onChange={(e) => setDescription(e.target.value)}
+            />
+          </div>
+        </div>
+        <DialogFooter>
+          <Button
+            type="submit"
+            onClick={() => {
+              mutation.mutate({
+                title,
+                description,
+                kanbanId: Number(elementId),
+              });
+            }}
+          >
+            Ajouter
+          </Button>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
+  );
 }
 
 export default CreateTask;

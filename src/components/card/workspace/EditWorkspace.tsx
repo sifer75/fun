@@ -19,7 +19,7 @@ import React, { useState } from "react";
 
 const EditWorkspace = React.forwardRef<HTMLButtonElement, DialogCardProps>(
   (props, ref) => {
-    const { modele, titleCard, descriptionCard, id, onClose } = props;
+    const { titleCard, descriptionCard, id, onClose } = props;
     const queryClient = useQueryClient();
     const [title, setTitle] = useState<string>(titleCard ?? "");
     const [description, setDescription] = useState<string>(
@@ -49,6 +49,7 @@ const EditWorkspace = React.forwardRef<HTMLButtonElement, DialogCardProps>(
             ref={ref}
             variant="ghost"
             className="flex items-center justify-start px-2 py-1.5 rounded-sm h-8 w-full"
+            onClick={(event) => event.stopPropagation()}
           >
             <PencilLine className="w-4 h-4 mr-2" />
             Éditer
@@ -57,10 +58,10 @@ const EditWorkspace = React.forwardRef<HTMLButtonElement, DialogCardProps>(
         <DialogContent className="sm:max-w-[425px]">
           <DialogHeader>
             <DialogTitle className="text-3xl">
-              Modifier le nom du {modele}
+              Modifier le nom du projet
             </DialogTitle>
             <DialogDescription>
-              Modifier les informations du {modele}
+              Modifier les informations du projet
             </DialogDescription>
           </DialogHeader>
           <div className="flex flex-col items-start gap-4 mb-2">
@@ -73,6 +74,7 @@ const EditWorkspace = React.forwardRef<HTMLButtonElement, DialogCardProps>(
               placeholder={"Nom du projet"}
               className="col-span-3 text-gray-500"
               onChange={(e) => setTitle(e.target.value)}
+              onClick={(event) => event.stopPropagation()}
             />
             <Label htmlFor="username" className="text-right">
               Description
@@ -82,12 +84,14 @@ const EditWorkspace = React.forwardRef<HTMLButtonElement, DialogCardProps>(
               placeholder={"Description du projet"}
               className="col-span-3"
               onChange={(e) => setDescription(e.target.value)}
+              onClick={(event) => event.stopPropagation()}
             />
           </div>
           <DialogFooter>
             <Button
               type="submit"
-              onClick={() => {
+              onClick={(event) => {
+                event.stopPropagation();
                 mutation.mutate({
                   id: id,
                   title: title,
