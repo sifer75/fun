@@ -9,7 +9,7 @@ import {
   TaskList,
 } from "iconoir-react";
 import { useQuery } from "@tanstack/react-query";
-import { getAllWorkspace } from "@/lib/workspace.request";
+import { getAllWorkspace, getSpecificWorkspace } from "@/lib/workspace.request";
 import { ReactNode, SetStateAction, useState } from "react";
 
 import { useNavigate, useParams } from "react-router-dom";
@@ -142,16 +142,34 @@ function ElementWorkspace({ icon, title }: { icon: ReactNode; title: string }) {
 }
 interface MenuListElementsProps {
   setSelectMenu: React.Dispatch<SetStateAction<"WORKSPACES" | "ELEMENTS">>;
+  workspaceId: number;
 }
-function MenuListElements({ setSelectMenu }: MenuListElementsProps) {
+function MenuListElements({
+  setSelectMenu,
+  workspaceId,
+}: MenuListElementsProps) {
   const {
     data: workspaces,
-    isError: workspaceError,
-    isLoading: workspaceLoading,
+    isError: workspacesError,
+    isLoading: workspacesLoading,
   } = useQuery({ queryKey: ["workspace"], queryFn: getAllWorkspace });
 
+  const {
+    data: workspace,
+    isError: workspaceError,
+    isLoading: workspaceLoading,
+  } = useQuery({
+    queryKey: ["workspace", workspaceId],
+    queryFn: () => getSpecificWorkspace(workspaceId),
+  });
   if (!workspaces) return <div>workspaces non trouvé</div>;
-  if (workspaceError || workspaceLoading) return <div>chargement...</div>;
+  if (
+    workspaceError ||
+    workspaceLoading ||
+    workspacesError ||
+    workspacesLoading
+  )
+    return <div>chargement...</div>;
 
   return (
     <div className="w-full min-w-full h-full gap-5 flex flex-col overflow-hidden">
@@ -162,7 +180,7 @@ function MenuListElements({ setSelectMenu }: MenuListElementsProps) {
         />
         <div className="gap-2 flex flex-row items-center w-full">
           <TaskList className="w-3.5 h-3.5" />
-          <h2 className="font-medium text-sm">Payconcent</h2>
+          <h2 className="font-medium text-sm">{workspace.title}</h2>
         </div>
         <CreateWorkspace />
       </div>

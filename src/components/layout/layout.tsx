@@ -39,7 +39,10 @@ function MenuAction() {
         }`}
       >
         <MenuListWorkspace setSelectMenu={setSelectMenu} />
-        <MenuListElements setSelectMenu={setSelectMenu} />
+        <MenuListElements
+          setSelectMenu={setSelectMenu}
+          workspaceId={Number(workspaceId)}
+        />
       </div>
     </div>
   );

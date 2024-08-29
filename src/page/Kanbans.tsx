@@ -17,7 +17,6 @@ function Kanban() {
     queryFn: () => getAllKanban(Number(workspaceId)),
   });
   const [searchTitle, setSearchTitle] = useState<string>("");
-  console.log(kanbans, "kan");
   if (isError || isLoading) return <div>chargement...</div>;
 
   const filteredKanbans = kanbans.filter((kanban: WorkspaceProps) =>
