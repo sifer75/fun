@@ -11,6 +11,8 @@ import {
 } from "react-beautiful-dnd";
 import { useEffect, useState } from "react";
 import { DropResult } from "react-beautiful-dnd";
+import { Input } from "@/components/ui/input";
+import CreateTask from "@/components/card/task/CreateTask";
 
 interface Columns {
   to_do: TaskProps[];
@@ -26,6 +28,7 @@ interface task {
 function Tasks() {
   const { elementId } = useParams<{ elementId: string }>();
   const queryClient = useQueryClient();
+  // const [searchTitle, setSearchTitle] = useState<string>("");
   const {
     data: tasks,
     isError,
@@ -34,6 +37,10 @@ function Tasks() {
     queryKey: ["task", elementId],
     queryFn: () => getAllTask(Number(elementId)),
   });
+
+  // const filteredTasks = tasks.filter((task: TaskProps) =>
+  //   task.title.toLowerCase().includes(searchTitle.toLowerCase())
+  // );
 
   const [columns, setColumns] = useState<Columns>({
     to_do: [],
@@ -146,23 +153,38 @@ function Tasks() {
   if (isError || isLoading) return <div>chargement...</div>;
 
   return (
-    <DragDropContext onDragEnd={onDragEnd}>
-      <div className="w-full flex-1 flex justify-center">
-        {statusColumn("to_do", "A Faire", "bg-fontBlue", "tâche(s) à faire")}
-        {statusColumn(
-          "in_progress",
-          "En Cours",
-          "bg-fontYellow",
-          "tâche(s) en cours"
-        )}
-        {statusColumn(
-          "finished",
-          "Terminé",
-          "bg-fontGreen",
-          "tâche(s) terminé(es)"
-        )}
+    <div className="w-full h-screen">
+      <div className="pt-6 pb-10 flex flex-col gap-8 justify-between sm:flex-row sm:justify-between">
+        <title></title>
+        <Input
+          className="w-40 sm:w-48 md:w-72 lg:w-80"
+          type="text"
+          placeholder="Rechercher..."
+          // value={searchTitle}
+          // onChange={(e) => {
+          //   setSearchTitle(e.target.value);
+          // }}
+        />
+        <CreateTask />
       </div>
-    </DragDropContext>
+      <DragDropContext onDragEnd={onDragEnd}>
+        <div className="w-full flex-1 flex justify-center">
+          {statusColumn("to_do", "A Faire", "bg-fontBlue", "tâche(s) à faire")}
+          {statusColumn(
+            "in_progress",
+            "En Cours",
+            "bg-fontYellow",
+            "tâche(s) en cours"
+          )}
+          {statusColumn(
+            "finished",
+            "Terminé",
+            "bg-fontGreen",
+            "tâche(s) terminé(es)"
+          )}
+        </div>
+      </DragDropContext>
+    </div>
   );
 }
 

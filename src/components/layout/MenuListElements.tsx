@@ -12,7 +12,7 @@ import { useQuery } from "@tanstack/react-query";
 import { getAllWorkspace } from "@/lib/workspace.request";
 import { ReactNode, SetStateAction, useState } from "react";
 
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -22,14 +22,22 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Ellipsis } from "lucide-react";
+import { getAllKanban } from "@/lib/kanban.request";
+import { KanbanProps } from "@/lib/cards.utils";
+import EditKanban from "../card/kanban/EditKanban";
+import DeleteKanban from "../card/kanban/DeleteKanban";
 function ButtonWorkspace({
   icon,
   title,
+  description,
   url,
+  id,
 }: {
   icon: ReactNode;
   title: string;
+  description: string;
   url: string;
+  id?: number;
 }) {
   const navigate = useNavigate();
   return (
@@ -44,15 +52,21 @@ function ButtonWorkspace({
 
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <button className="w-4 h-4">
+          <div className="w-4 h-4">
             <Ellipsis className="w-4 h-4" />
-          </button>
+          </div>
         </DropdownMenuTrigger>
         <DropdownMenuContent className="w-56 z-50">
           <DropdownMenuGroup>
             <DropdownMenuItem asChild></DropdownMenuItem>
+            <EditKanban
+              titleCard={title}
+              id={id as number}
+              descriptionCard={description}
+            />
             <DropdownMenuSeparator />
             <DropdownMenuItem asChild></DropdownMenuItem>
+            <DeleteKanban title={title} id={id as number} />
           </DropdownMenuGroup>
         </DropdownMenuContent>
       </DropdownMenu>
@@ -60,8 +74,49 @@ function ButtonWorkspace({
   );
 }
 
+function TaskWorkspace({ icon, title }: { icon: ReactNode; title: string }) {
+  const [openFolder, setOpenFolder] = useState<boolean>(false);
+  const { workspaceId } = useParams();
+  const {
+    data: kanbans,
+    isLoading: kanbanLoading,
+    isError: kanbanError,
+  } = useQuery({
+    queryKey: ["kanban"],
+    queryFn: () => getAllKanban(Number(workspaceId)),
+  });
+
+  if (kanbanError || kanbanLoading) return <div>kanban non trouvé</div>;
+  return (
+    <div className="flex gap-1 flex-col">
+      <button
+        className="flex flex-row gap-2.5 items-center px-1 py-2 hover:bg-buttonHover rounded-xl"
+        onClick={() => setOpenFolder(!openFolder)}
+      >
+        {icon}
+        <h2 className="w-full truncate text-left">{title}</h2>
+        <NavArrowRight className="w-4 h-4" />
+      </button>
+      {openFolder ? (
+        <div className="h-fit w-full flex flex-col gap-2 pl-3">
+          {kanbans.map((kanban: KanbanProps) => (
+            <ButtonWorkspace
+              key={kanban.id}
+              title={kanban.title}
+              description={kanban.description}
+              icon={<NavArrowRight className="w-4 h-4" />}
+              url={`/workspace/${workspaceId}/${kanban.id}`}
+              id={kanban.id as number}
+            />
+          ))}
+        </div>
+      ) : null}
+    </div>
+  );
+}
 function ElementWorkspace({ icon, title }: { icon: ReactNode; title: string }) {
   const [openFolder, setOpenFolder] = useState<boolean>(false);
+
   return (
     <div className="flex gap-1 flex-col">
       <button
@@ -75,14 +130,10 @@ function ElementWorkspace({ icon, title }: { icon: ReactNode; title: string }) {
       {openFolder ? (
         <div className="h-fit w-full flex flex-col gap-2 pl-3">
           <ButtonWorkspace
-            title="payconcent"
+            title="bonjour"
+            description="bonjour2"
             icon={<NavArrowRight className="w-4 h-4" />}
-            url={"/workspace"}
-          />
-          <ButtonWorkspace
-            title="payconcvcsvsvsvent"
-            icon={<NavArrowRight className="w-4 h-4" />}
-            url={"/workspace"}
+            url={`/workspace/${2}`}
           />
         </div>
       ) : null}
@@ -117,7 +168,7 @@ function MenuListElements({ setSelectMenu }: MenuListElementsProps) {
       </div>
 
       <div className="text-sm h-full flex flex-col gap-2 overflow-y-scroll">
-        <ElementWorkspace
+        <TaskWorkspace
           title="Tableau de tâches"
           icon={<TaskList className="w-4 h-4" />}
         />

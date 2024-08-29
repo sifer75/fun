@@ -6,6 +6,7 @@ export interface WorkspaceProps {
 
 export interface KanbanProps {
   title: string;
+  description: string;
   workspaceId: number;
   id?: number;
 }

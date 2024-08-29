@@ -1,13 +1,12 @@
 import KanbanCard from "@/components/card/kanban/KanbanCard";
-import { Input } from "@/components/ui/input";
 import { getAllKanban } from "@/lib/kanban.request";
 import { KanbanProps, WorkspaceProps } from "@/lib/cards.utils";
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import { useParams } from "react-router-dom";
-import CreateKanban from "@/components/card/kanban/CreateKanban";
+import HeaderKanban from "@/components/header/HeaderKanban";
 
-function Kanbans() {
+function Kanban() {
   const { workspaceId } = useParams<{ workspaceId: string }>();
   const {
     data: kanbans,
@@ -27,32 +26,23 @@ function Kanbans() {
   );
 
   return (
-    <>
-      <div className="pt-6 pb-10 flex flex-col gap-8 justify-between sm:flex-row sm:justify-between">
-        <title></title>
-        <Input
-          className="w-40 sm:w-48 md:w-72 lg:w-80"
-          type="text"
-          placeholder="Rechercher..."
-          value={searchTitle}
-          onChange={(e) => {
-            setSearchTitle(e.target.value);
-          }}
-        />
-        <CreateKanban />
+    <div className="flex flex-col gap-8">
+      <div className="flex flex-col gap-8 justify-between sm:flex-row sm:justify-between">
+        <HeaderKanban />
       </div>
-      <div className="flex flex-wrap gap-8 sm:gap-12 md:gap-16 lg:gap-20 justify-center">
+      <div className="flex flex-wrap gap-4">
         {filteredKanbans.map((kanban: KanbanProps, index: number) => (
           <KanbanCard
             title={kanban.title}
             workspaceId={kanban.workspaceId}
             id={kanban.id}
             key={index}
+            description={kanban.description}
           />
         ))}
       </div>
-    </>
+    </div>
   );
 }
 
-export default Kanbans;
+export default Kanban;

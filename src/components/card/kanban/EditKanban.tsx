@@ -17,17 +17,26 @@ import { DialogCardProps } from "@/lib/dialogCard.utils";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import React, { useState } from "react";
 import { updateKanban } from "@/lib/kanban.request";
+import { useParams } from "react-router-dom";
+import { Textarea } from "@/components/ui/textarea";
 
 const EditKanban = React.forwardRef<HTMLButtonElement, DialogCardProps>(
   (props, ref) => {
-    const { titleCard, id } = props;
+    const { titleCard, descriptionCard, id } = props;
     const queryClient = useQueryClient();
+    const { workspaceId } = useParams();
 
     const [title, setTitle] = useState<string>(titleCard);
+    const [description, setDescription] = useState<string>(descriptionCard);
     const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
     const mutation = useMutation({
-      mutationFn: (data: { title: string; id: number }) =>
-        updateKanban({ id, title: data.title }),
+      mutationFn: (data: { title: string; id: number; description: string }) =>
+        updateKanban({
+          id,
+          title: data.title,
+          workspaceId: Number(workspaceId),
+          description: data.description,
+        }),
       onError: (error) => {
         console.log(error);
       },
@@ -66,9 +75,20 @@ const EditKanban = React.forwardRef<HTMLButtonElement, DialogCardProps>(
               defaultValue={titleCard}
               placeholder={"Nom du projet"}
               className="col-span-3 text-gray-500"
-              onChange={(e) => setTitle(e.target.value)}
+              onChange={(event) => setTitle(event.target.value)}
               onClick={(event) => event.stopPropagation()}
             />
+            <Label htmlFor="name" className="text-right">
+              Description
+            </Label>
+            <Textarea
+              id="description"
+              defaultValue={descriptionCard}
+              onChange={(event) => setDescription(event.target.value)}
+              onClick={(event) => event.stopPropagation()}
+            >
+              {descriptionCard}
+            </Textarea>
           </div>
           <DialogFooter>
             <Button
@@ -78,6 +98,7 @@ const EditKanban = React.forwardRef<HTMLButtonElement, DialogCardProps>(
                 mutation.mutate({
                   id: id,
                   title: title,
+                  description: description,
                 });
               }}
             >

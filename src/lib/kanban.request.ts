@@ -29,11 +29,11 @@ export const getAllKanban = async (workspaceId: number) => {
 };
 
 export const updateKanban = async (data: KanbanProps) => {
-  const { id, title } = data;
+  const { id, title, description } = data;
   const response = await fetch(`http://localhost:3333/kanban/update/${id}`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ title }),
+    body: JSON.stringify({ title, description }),
     credentials: "include",
   });
   if (!response.ok) {

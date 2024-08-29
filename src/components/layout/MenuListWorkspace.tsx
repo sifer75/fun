@@ -44,9 +44,9 @@ function WorkspaceElement({
 
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <button className="w-4 h-4">
+          <div className="w-4 h-4">
             <Ellipsis className="w-4 h-4" />
-          </button>
+          </div>
         </DropdownMenuTrigger>
         <DropdownMenuContent className="w-56 z-50">
           <DropdownMenuGroup>
@@ -54,6 +54,7 @@ function WorkspaceElement({
               <EditWorkspace
                 titleCard={workspace.title}
                 id={workspace.id as number}
+                descriptionCard={workspace.description}
               />
             </DropdownMenuItem>
             <DropdownMenuSeparator />
@@ -78,7 +79,7 @@ function MenuListWorkspace({ setSelectMenu }: MenuListWorkspaceProps) {
     data: workspaces,
     isError: workspaceError,
     isLoading: workspaceLoading,
-  } = useQuery({ queryKey: ["workspace"], queryFn: getAllWorkspace });
+  } = useQuery({ queryKey: ["workspaces"], queryFn: getAllWorkspace });
 
   if (!workspaces) return <div>workspaces non trouvé</div>;
   if (workspaceError || workspaceLoading) return <div>chargement...</div>;

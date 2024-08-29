@@ -1,12 +1,3 @@
-import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -15,88 +6,55 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Ellipsis } from "lucide-react";
-import { Progress } from "@/components/ui/progress";
-import { KanbanProps, TaskProps } from "@/lib/cards.utils";
-import { useState } from "react";
+import { KanbanProps } from "@/lib/cards.utils";
 import { useNavigate } from "react-router-dom";
 import EditKanban from "./EditKanban";
 import DeleteKanban from "./DeleteKanban";
-import { useQuery } from "@tanstack/react-query";
-import { getAllTask } from "@/lib/task.request";
+import { Calendar } from "iconoir-react";
 
-function KanbanCard({ title, workspaceId, id }: KanbanProps) {
-  const [isDropdownOpen, setIsDropdownOpen] = useState<boolean>(false);
+function KanbanCard({ title, description, workspaceId, id }: KanbanProps) {
   const navigate = useNavigate();
-  const kanbanId = id ?? -1;
 
   const handleCardClick = () => {
     navigate(`/workspace/${workspaceId}/${id}`);
   };
 
-  const {
-    data: tasks,
-    isError,
-    isLoading,
-  } = useQuery({
-    queryKey: ["kanbanTasks", kanbanId],
-    queryFn: () => getAllTask(kanbanId),
-    enabled: id !== undefined,
-  });
-
-  const totalTasks = tasks ? tasks.length : 0;
-  const totalTasksDone = tasks
-    ? tasks.filter((task: TaskProps) => task.status === "finished").length
-    : 0;
-  const percentageTasksDone =
-    totalTasks > 0 ? Math.min((totalTasksDone / totalTasks) * 100, 100) : 0;
-
-  if (isError || isLoading) return <div>chargement...</div>;
-  if (!id) return <div>id non trouvé</div>;
-
   return (
-    <Card
-      className="w-56 md:w-72 lg:w-96 hover:translate-y-3  ease-in-out delay-100 duration-150"
+    <div
+      className="border-2 border-selectionButton flex flex-col gap-2.5 p-4 rounded-lg w-[427px] h-40"
       onClick={handleCardClick}
     >
-      <CardHeader className="flex flex-row justify-between items-center">
-        <CardTitle className="truncate w-24 sm:w-32 md:w-40 lg:w-64 h-7">
-          {title}
-        </CardTitle>
-      </CardHeader>
-      <CardContent className="flex items-center justify-between">
-        <CardDescription>{totalTasks} tache(s)</CardDescription>
+      <div className="w-full flex justify-between items-center">
+        <p>{title}</p>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button
-              variant="ghost"
-              onClick={(event) => {
-                event.stopPropagation();
-                setIsDropdownOpen(!isDropdownOpen);
-              }}
-            >
-              <Ellipsis />
-            </Button>
+            <div className="w-4 h-4">
+              <Calendar className="w-4 h-4" />
+            </div>
           </DropdownMenuTrigger>
-          {isDropdownOpen && (
-            <DropdownMenuContent className="w-56">
-              <DropdownMenuGroup>
-                <DropdownMenuItem asChild>
-                  <EditKanban titleCard={title} id={id} />
-                </DropdownMenuItem>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem asChild>
-                  <DeleteKanban title={title} id={id} />
-                </DropdownMenuItem>
-              </DropdownMenuGroup>
-            </DropdownMenuContent>
-          )}
+
+          <DropdownMenuContent className="w-56">
+            <DropdownMenuGroup>
+              <DropdownMenuItem asChild>
+                <EditKanban
+                  titleCard={title}
+                  id={id as number}
+                  descriptionCard={description}
+                />
+              </DropdownMenuItem>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem asChild>
+                <DeleteKanban title={title} id={id as number} />
+              </DropdownMenuItem>
+            </DropdownMenuGroup>
+          </DropdownMenuContent>
         </DropdownMenu>
-      </CardContent>
-      <CardFooter className="flex justify-between">
-        <Progress value={percentageTasksDone} />
-      </CardFooter>
-    </Card>
+      </div>
+      <p className="color-[#000000] w-full h-full">{description}</p>
+      <p className="text-[#757575] text-sm">
+        Modifié par Fabien le 25/05/2024 à 08h00
+      </p>
+    </div>
   );
 }
 

@@ -5,7 +5,7 @@ export const createWorkspace = async (data: WorkspaceProps) => {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(data),
-    credentials: 'include'
+    credentials: "include",
   });
   if (!response.ok) {
     throw new Error("Erreur lors de la création du workspace");
@@ -31,7 +31,7 @@ export const updateWorkspace = async (data: WorkspaceProps) => {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ title, description }),
-    credentials: 'include'
+    credentials: "include",
   });
   if (!response.ok) {
     throw new Error("Erreur lors de la modification du workspace");
@@ -44,9 +44,21 @@ export const deleteWorkspace = async (id: number) => {
     method: "DELETE",
     headers: { "Content-Type": "application/json" },
     body: null,
-    credentials: 'include'
+    credentials: "include",
   });
   if (!response.ok) {
     throw new Error("Erreur lors de la suppression du workspace");
   }
+};
+
+export const getSpecificWorkspace = async (id: number) => {
+  const response = await fetch(`http://localhost:3333/workspace/get/${id}`, {
+    method: "GET",
+    headers: { "Content-Type": "application/json" },
+    credentials: "include",
+  });
+  if (!response.ok) {
+    throw new Error("Erreur lors de la récupération du workspace");
+  }
+  return await response.json();
 };
