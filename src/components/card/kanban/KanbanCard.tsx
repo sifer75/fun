@@ -11,13 +11,32 @@ import { useNavigate } from "react-router-dom";
 import EditKanban from "./EditKanban";
 import DeleteKanban from "./DeleteKanban";
 import { Calendar } from "iconoir-react";
+import dayjs from "dayjs";
 
-function KanbanCard({ title, description, workspaceId, id }: KanbanProps) {
+function KanbanCard({
+  title,
+  description,
+  workspaceId,
+  id,
+  updateAt,
+}: KanbanProps) {
   const navigate = useNavigate();
 
   const handleCardClick = () => {
     navigate(`/workspace/${workspaceId}/${id}`);
   };
+
+  function ReadDate({ updateAt }: { updateAt: Date }) {
+    const formattedDate = dayjs(updateAt).format("DD MM YYYY");
+    const formattedHour = dayjs(updateAt).format("HH");
+    const formattedMinutes = dayjs(updateAt).format("mm");
+    return (
+      <p className="text-[#757575] text-sm">
+        Modifié par Fabien le {formattedDate} à {formattedHour}h
+        {formattedMinutes}
+      </p>
+    );
+  }
 
   return (
     <div
@@ -51,9 +70,7 @@ function KanbanCard({ title, description, workspaceId, id }: KanbanProps) {
         </DropdownMenu>
       </div>
       <p className="color-[#000000] w-full h-full">{description}</p>
-      <p className="text-[#757575] text-sm">
-        Modifié par Fabien le 25/05/2024 à 08h00
-      </p>
+      <ReadDate updateAt={updateAt as Date} />
     </div>
   );
 }

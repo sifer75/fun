@@ -83,7 +83,6 @@ const EditKanban = React.forwardRef<HTMLButtonElement, DialogCardProps>(
             </Label>
             <Textarea
               id="description"
-              defaultValue={descriptionCard}
               onChange={(event) => setDescription(event.target.value)}
               onClick={(event) => event.stopPropagation()}
             >

@@ -24,7 +24,6 @@ function MenuAction() {
     workspaceId ? "ELEMENTS" : "WORKSPACES"
   );
   useEffect(() => {
-    console.log(workspaceId, "id");
     if (!workspaceId) {
       setSelectMenu("WORKSPACES");
     } else {

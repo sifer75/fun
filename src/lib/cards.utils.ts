@@ -9,6 +9,7 @@ export interface KanbanProps {
   description: string;
   workspaceId: number;
   id?: number;
+  updateAt?: Date;
 }
 
 export interface TaskProps {

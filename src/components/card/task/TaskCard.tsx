@@ -18,6 +18,7 @@ import { TaskProps } from "@/lib/cards.utils";
 import { Ellipsis } from "lucide-react";
 import DeleteTask from "./DeleteTask";
 import EditTask from "./EditTask";
+import DateTask from "./DateTask";
 
 function TaskCard({ title, description, id, color, from, to }: TaskProps) {
   const fromDate = from;
@@ -52,7 +53,9 @@ function TaskCard({ title, description, id, color, from, to }: TaskProps) {
                     id={id}
                   ></EditTask>
                 </DropdownMenuItem>
-                <DropdownMenuItem asChild></DropdownMenuItem>
+                <DropdownMenuItem asChild>
+                  <DateTask id={id} />
+                </DropdownMenuItem>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem asChild>
                   <DeleteTask title={title} id={id} />

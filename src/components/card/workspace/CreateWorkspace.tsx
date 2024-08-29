@@ -40,6 +40,8 @@ function CreateWorkspace() {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     mutation.mutate({ title, description });
+    setTitle("");
+    setDescription("");
   };
 
   return (

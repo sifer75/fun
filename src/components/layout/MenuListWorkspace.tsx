@@ -79,9 +79,8 @@ function MenuListWorkspace({ setSelectMenu }: MenuListWorkspaceProps) {
     data: workspaces,
     isError: workspaceError,
     isLoading: workspaceLoading,
-  } = useQuery({ queryKey: ["workspaces"], queryFn: getAllWorkspace });
+  } = useQuery({ queryKey: ["workspace"], queryFn: getAllWorkspace });
 
-  if (!workspaces) return <div>workspaces non trouvé</div>;
   if (workspaceError || workspaceLoading) return <div>chargement...</div>;
 
   return (
