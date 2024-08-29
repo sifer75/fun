@@ -16,6 +16,7 @@ import { TaskProps } from "@/lib/cards.utils";
 import { useParams } from "react-router-dom";
 import { Textarea } from "@/components/ui/textarea";
 import { createTask } from "@/lib/task.request";
+import { Plus } from "iconoir-react";
 
 function CreateTask({ ...props }) {
   const queryClient = useQueryClient();
@@ -39,7 +40,10 @@ function CreateTask({ ...props }) {
   return (
     <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen} {...props}>
       <DialogTrigger asChild>
-        <Button>Création de la task</Button>
+        <Button className="px-3 py-2 flex gap-2.5 rounded-xl">
+          <Plus />
+          <span className="text-sm font-normal">Nouvelle Tache</span>
+        </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>

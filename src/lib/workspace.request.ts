@@ -50,7 +50,6 @@ export const deleteWorkspace = async (id: number) => {
     throw new Error("Erreur lors de la suppression du workspace");
   }
 };
-
 export const getSpecificWorkspace = async (id: number) => {
   const response = await fetch(`http://localhost:3333/workspace/get/${id}`, {
     method: "GET",

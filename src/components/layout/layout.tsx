@@ -7,12 +7,17 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Button } from "../ui/button";
 import { Avatar, AvatarImage } from "../ui/avatar";
 import ButtonUser from "./ButtonUser";
 import { useQuery } from "@tanstack/react-query";
 import { getUserInfo } from "@/lib/user.request";
-import { HomeSimple, NavArrowRight, Search, Settings } from "iconoir-react";
+import {
+  HomeSimple,
+  NavArrowDown,
+  NavArrowRight,
+  Search,
+  Settings,
+} from "iconoir-react";
 import { Link, useParams } from "react-router-dom";
 import { Input } from "../ui/input";
 import MenuListWorkspace from "./MenuListWorkspace";
@@ -39,10 +44,7 @@ function MenuAction() {
         }`}
       >
         <MenuListWorkspace setSelectMenu={setSelectMenu} />
-        <MenuListElements
-          setSelectMenu={setSelectMenu}
-          workspaceId={Number(workspaceId)}
-        />
+        <MenuListElements setSelectMenu={setSelectMenu} />
       </div>
     </div>
   );
@@ -92,12 +94,15 @@ function Sidebar() {
       <MenuAction />
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <Button variant="outline" className="w-40">
-            <Avatar className="mr-2 w-5 h-5">
+          <button className="w-full flex items-center gap-2.5">
+            <Avatar className="w-8 h-8 rounded-xl">
               <AvatarImage src={user.avatarUrl} alt="image de l'utilisateur" />
             </Avatar>
-            <p className="text-lg">{user.name}</p>
-          </Button>
+            <p className="w-full text-left">{user.name}</p>
+            <div className="w-4 h-4">
+              <NavArrowDown className="w-4 h-4" />
+            </div>
+          </button>
         </DropdownMenuTrigger>
         <DropdownMenuContent>
           <DropdownMenuLabel>Mon compte</DropdownMenuLabel>

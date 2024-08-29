@@ -23,6 +23,8 @@ module.exports = {
         fontGreen: "#CCF1D6",
         buttonHover: "#F2F1DF",
         selectionButton: "#C0A7D9",
+        textGray: "#757575",
+        taskSection: "#E9E9E933",
       },
       keyframes: {
         "accordion-down": {
