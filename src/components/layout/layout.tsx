@@ -119,7 +119,7 @@ export function Layout({ children }: { children: ReactNode }) {
   return (
     <div className="h-screen w-screen flex flex-row ">
       <Sidebar />
-      <main className="flex-1 p-5 overflow-scroll">{children}</main>
+      <main className="flex-1 p-5 overflow-hidden">{children}</main>
     </div>
   );
 }

@@ -1,5 +1,6 @@
 import { Plus, PlusCircle, Suggestion } from "iconoir-react";
 import imgTest from "../../../assets/Frame88.png";
+import { TaskProps } from "@/lib/cards.utils";
 // import {
 //   Card,
 //   CardContent,
@@ -81,9 +82,12 @@ import imgTest from "../../../assets/Frame88.png";
 
 // export default TaskCard;
 
-function TaskCard() {
+function TaskCard({ title, description, id }: TaskProps) {
   return (
-    <div className="border border-[#D9D9D9] rounded-xl w-80 bg-white p-3 flex flex-col gap-5">
+    <div
+      className="border border-[#D9D9D9] rounded-xl w-80 bg-white p-3 flex flex-col gap-5"
+      data-swapy-item={id}
+    >
       <div className="w-full flex flex-row gap-4">
         <div className="w-full flex flex-wrap gap-1">
           <span className="text-[#D12525] text-sm bg-[#D12525]/20 w-fit px-3 rounded inline-flex items-center">
@@ -107,13 +111,8 @@ function TaskCard() {
         <img src={imgTest} alt="imgTask" className="w-full h-32"></img>
       </div>
       <div className="flex flex-col gap-2.5">
-        <h2 className="leading-5 text-xl font-bold text-[#000000]">
-          Mettre en place le serveur discord
-        </h2>
-        <p className="text-sm text-[#71717A]">
-          Ajouter la dependance NPM Framer Motion pour pouvoir faire des
-          animations stylés de fou malade
-        </p>
+        <h2 className="leading-5 text-xl font-bold text-[#000000]">{title}</h2>
+        <p className="text-sm text-[#71717A]">{description}</p>
       </div>
       <div className="w-full flex flex-row justify-between items-center">
         <PlusCircle className="h-9 w-9" />

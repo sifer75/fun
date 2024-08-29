@@ -15,7 +15,10 @@
 
 import CreateTask from "@/components/card/task/CreateTask";
 import TaskCard from "@/components/card/task/TaskCard";
+import { TaskProps } from "@/lib/cards.utils";
 import { Plus, TaskList } from "iconoir-react";
+import { useRef } from "react";
+
 // interface Columns {
 //   to_do: TaskProps[];
 //   in_progress: TaskProps[];
@@ -186,10 +189,82 @@ import { Plus, TaskList } from "iconoir-react";
 // }
 
 // export default Tasks;
+const task: Record<string, TaskProps[]> = {
+  todo: [
+    {
+      id: 1,
+      kanbanId: 1,
+      title: "Setup project",
+      description: "Initialize the project with basic setup and dependencies.",
+      status: "to_do",
+      color: "#FF5733",
+      from: "2024-08-01",
+      to: "2024-08-05",
+    },
+    {
+      id: 2,
+      kanbanId: 1,
+      title: "Design wireframes",
+      description: "Create wireframes for the dashboard.",
+      status: "to_do",
+      color: "#33C1FF",
+      from: "2024-08-03",
+      to: "2024-08-07",
+    },
+  ],
+  in_progress: [
+    {
+      id: 3,
+      kanbanId: 1,
+      title: "Develop login feature",
+      description: "Implement the login page and authentication system.",
+      status: "in_progress",
+      color: "#33FF57",
+      from: "2024-08-06",
+      to: "2024-08-10",
+    },
+    {
+      id: 4,
+      kanbanId: 1,
+      title: "Database schema design",
+      description: "Design the database schema for user management.",
+      status: "in_progress",
+      color: "#FFA533",
+      from: "2024-08-04",
+      to: "2024-08-12",
+    },
+  ],
+  finished: [
+    {
+      id: 5,
+      kanbanId: 1,
+      title: "Project kickoff meeting",
+      description: "Organize the kickoff meeting with stakeholders.",
+      status: "finished",
+      color: "#5733FF",
+      from: "2024-07-25",
+      to: "2024-07-25",
+    },
+    {
+      id: 6,
+      kanbanId: 1,
+      title: "Setup CI/CD pipeline",
+      description:
+        "Configure the CI/CD pipeline for automated testing and deployment.",
+      status: "finished",
+      color: "#FF3357",
+      from: "2024-07-28",
+      to: "2024-07-30",
+    },
+  ],
+};
+
 function Tasks() {
+  const refContainer = useRef<HTMLDivElement>(null);
+
   return (
-    <div className="w-full h-full bg-red-100 flex flex-col gap-8">
-      <div className="w-full gap-4 flex flex-col bg-blue-100">
+    <div className="w-full h-full flex flex-col gap-8 overflow-hidden">
+      <div className="w-full gap-4 flex flex-col">
         <div className="flex flex-col gap-2">
           <div className="flex items-center gap-2 w-fit">
             <TaskList className="w-8 h-8" />
@@ -204,9 +279,16 @@ function Tasks() {
           <CreateTask />
         </div>
       </div>
-      <div className="bg-yellow-100 w-full h-full">
-        <div className="h-full w-fit bg-taskSection rounded-xl p-3 gap-6 flex flex-col">
-          <div className="flex flex-row justify-between items-center bg-blue-100">
+
+      <div
+        ref={refContainer}
+        className="h-full flex flex-row gap-8 overflow-x-scroll"
+      >
+        <div
+          className="h-full w-fit bg-taskSection rounded-xl p-3 gap-6 flex flex-col"
+          data-swapy-slot="todo"
+        >
+          <div className="flex flex-row justify-between items-center">
             <div className="flex flex-row gap-1 items-center">
               <p className="text-sm font-medium">To-do</p>
               <div className="bg-[#D9D9D9] p- w-4 h-4 flex items-center justify-center rounded-sm text-sm">
@@ -215,7 +297,49 @@ function Tasks() {
             </div>
             <Plus className="w-5 h-5" />
           </div>
-          <TaskCard />
+          <div className="h-full overflow-y-scroll flex flex-col gap-3 rounded-xl">
+            {task.todo.map((task) => {
+              return <TaskCard {...task} key={task.id} />;
+            })}
+          </div>
+        </div>
+        <div
+          className="h-full w-fit bg-taskSection rounded-xl p-3 gap-6 flex flex-col"
+          data-swapy-slot="in_progress"
+        >
+          <div className="flex flex-row justify-between items-center">
+            <div className="flex flex-row gap-1 items-center">
+              <p className="text-sm font-medium">En Cours</p>
+              <div className="bg-[#D9D9D9] p- w-4 h-4 flex items-center justify-center rounded-sm text-sm">
+                5
+              </div>
+            </div>
+            <Plus className="w-5 h-5" />
+          </div>
+          <div className="h-full overflow-y-scroll flex flex-col gap-3 rounded-xl">
+            {task.in_progress.map((task) => {
+              return <TaskCard {...task} key={task.id} />;
+            })}
+          </div>
+        </div>
+        <div
+          className="h-full w-fit bg-taskSection rounded-xl p-3 gap-6 flex flex-col"
+          data-swapy-slot="finished"
+        >
+          <div className="flex flex-row justify-between items-center">
+            <div className="flex flex-row gap-1 items-center">
+              <p className="text-sm font-medium">Completé</p>
+              <div className="bg-[#D9D9D9] p- w-4 h-4 flex items-center justify-center rounded-sm text-sm">
+                5
+              </div>
+            </div>
+            <Plus className="w-5 h-5" />
+          </div>
+          <div className="h-full overflow-y-scroll flex flex-col gap-3 rounded-xl">
+            {task.finished.map((task) => {
+              return <TaskCard {...task} key={task.id} />;
+            })}
+          </div>
         </div>
       </div>
     </div>
