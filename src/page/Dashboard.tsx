@@ -1,10 +1,22 @@
-import { Planet, Plus } from "iconoir-react";
-
+import AgendaCard from "@/components/card/dashboard/AgendaCard";
+import RecentCard from "@/components/card/dashboard/RecentCard";
+import WorkspaceCard from "@/components/card/dashboard/WorkspaceCard";
+import {
+  Plus,
+  ArrowLeft,
+  ArrowRight,
+  Calendar,
+  NavArrowRight,
+  Page,
+  Presentation,
+  Table2Columns,
+  TaskList,
+} from "iconoir-react";
 function Dashboard() {
   return (
     <>
-      <div className="w-full h-full flex flex-col gap-8 bg-red-100">
-        <div className="flex flex-col gap-2 bg-blue-100">
+      <div className="w-full h-full flex flex-col gap-8 ">
+        <div className="flex flex-col gap-2">
           <h1 className="font-medium text-2xl">Dashboard</h1>
           <p className="text-[#71717A] text-sm">
             Fuga nam voluptatibus ullam excepturi consectetur iusto blanditiis
@@ -14,83 +26,61 @@ function Dashboard() {
             temporibus cupiditate quia quam.
           </p>
         </div>
-        <div className="w-full h-full flex flex-row gap-7">
-          <div className="bg-gray-100 w-2/3 h-full"></div>
-          <div className="h-full flex flex-col gap-4">
-            <div className="w-max flex flex-col justify-between items-end gap-4">
-              <button className="bg-[#0D0D0D] flex flex-row items-center gap-2.5 w-fit px-4 py-2 rounded-lg">
-                <Plus className="w-4 h-4 text-white" />
-                <p className="text-white text-sm leading-8">
-                  Ajouter une tâche
-                </p>
-              </button>
-              <div className="w-full h-fit border-2 border-selectionButton rounded-xl flex flex-col gap-2.5 p-4">
-                <h2 className="font-bold">Ajouter la dependance NPM</h2>
-                <div>
-                  <p>Ajouter la dependance NPM Framer Motion pour</p>
-                  <p>pouvoir faire des animations stylés de fou malade</p>
-                </div>
-                <p className="text-sm text-textGray">
-                  Creé par Fabien le 25/05/2024 à 08h00
-                </p>
-              </div>
-              <div className="w-full h-fit border-2 border-selectionButton rounded-xl flex flex-col gap-2.5 p-4">
-                <h2 className="font-bold">Ajouter la dependance NPM</h2>
-                <div>
-                  <p>Ajouter la dependance NPM Framer Motion pour</p>
-                  <p>pouvoir faire des animations stylés de fou malade</p>
-                </div>
-                <p className="text-sm text-textGray">
-                  Creé par Fabien le 25/05/2024 à 08h00
-                </p>
-              </div>
-              <div className="w-fit h-fit border-2 border-selectionButton rounded-xl flex flex-col gap-2.5 p-4">
-                <h2 className="font-bold">Ajouter la dependance NPM</h2>
-                <div>
-                  <p>Ajouter la dependance NPM Framer Motion pour</p>
-                  <p>pouvoir faire des animations stylés de fou malade</p>
-                </div>
-                <p className="text-sm text-textGray">
-                  Creé par Fabien le 25/05/2024 à 08h00
-                </p>
+        <div className="w-full h-full flex gap-5">
+          <div className="w-2/3 flex flex-col gap-6">
+            <div className="w-full bg-[#FAFBFD] rounded-xl p-3">
+              <h1 className="text-xl h-8 w-32">Workspaces</h1>
+              <div className="flex gap-2 flex-wrap">
+                <WorkspaceCard />
+                <WorkspaceCard />
+                <WorkspaceCard />
+                <WorkspaceCard />
               </div>
             </div>
-            <div className="bg-orange-100 h-full w-full grid grid-cols-2 grid-row-2 gap-2.5">
-              <div className="bg-[#C0A7D9] rounded-xl p-4 gap-4 flex flex-col justify-between">
-                <p className="font-bold text-xl text-white leading-8">
-                  Workspace 1
-                </p>
-                <Planet />
-                <div className="text-sm text-white">
-                  <p>10 tâches</p>
-                  <p>3 en cours</p>
-                </div>
-              </div>
-              <div className="bg-[#F2F1DF] rounded-xl p-4 gap-4 flex flex-col justify-between">
-                <p className="font-bold text-xl leading-8">Workspace 2</p>
-                <Planet />
-                <div className="text-sm">
-                  <p>10 tâches</p>
-                  <p>3 en cours</p>
-                </div>
-              </div>
-              <div className="bg-[#73726E] rounded-xl p-4 gap-4 flex flex-col justify-between">
-                <p className="font-bold text-xl text-white leading-8">
-                  Workspace 3
-                </p>
-                <Planet />
-                <div className="text-sm text-white">
-                  <p>10 tâches</p>
-                  <p>3 en cours</p>
-                </div>
-              </div>
-              <div className="bg-[#0D0D0D] rounded-xl p-4 gap-4 flex flex-col justify-center items-center">
-                <Plus className="w-6 h-6 text-white" />
-                <p className="font-bold text-sm leading-4 text-center text-white w-full">
-                  Nouveau Workspace
-                </p>
+            <div className="w-full bg-[#FAFBFD] rounded-xl p-3">
+              <h1 className="text-xl h-8 w-32">Recents</h1>
+              <div className="flex gap-5 flex-wrap">
+                <RecentCard
+                  title={"Calendrier"}
+                  icon={<Calendar className="w-4 h-4" />}
+                />
+                <RecentCard
+                  title={"Presentation"}
+                  icon={<Presentation className="w-4 h-4" />}
+                />
+                <RecentCard
+                  title={"Document"}
+                  icon={<Page className="w-4 h-4" />}
+                />
+                <RecentCard
+                  title={"Tableau"}
+                  icon={<Table2Columns className="w-4 h-4" />}
+                />
+                <RecentCard
+                  title={"Liste de tâches"}
+                  icon={<TaskList className="w-4 h-4" />}
+                />
+                <RecentCard
+                  title={"Excalidraw"}
+                  icon={<NavArrowRight className="w-4 h-4" />}
+                />
               </div>
             </div>
+          </div>
+          <div className="bg-[#FAFBFD] min-w-[340px] flex flex-col gap-5 rounded-xl p-3">
+            <div className="flex items-center justify-between min-w-max">
+              <div className="flex gap-2.5 items-center">
+                <p className="font-bold">Vendredi 3 Mars 2024</p>
+                <div className="w-10 flex justify-between">
+                  <ArrowLeft className="w-3 h-3" />
+                  <ArrowRight className="w-3 h-3" />
+                </div>
+              </div>
+              <Plus className="w-4 h-4" />
+            </div>
+            <AgendaCard />
+            <AgendaCard />
+            <AgendaCard />
           </div>
         </div>
       </div>
