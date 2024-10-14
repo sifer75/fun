@@ -1,6 +1,9 @@
 import AgendaCard from "@/components/card/dashboard/AgendaCard";
 import RecentCard from "@/components/card/dashboard/RecentCard";
 import WorkspaceCard from "@/components/card/dashboard/WorkspaceCard";
+import { WorkspaceProps } from "@/lib/cards.utils";
+import { getAllWorkspace } from "@/lib/workspace.request";
+import { useQuery } from "@tanstack/react-query";
 import {
   Plus,
   ArrowLeft,
@@ -13,6 +16,18 @@ import {
   TaskList,
 } from "iconoir-react";
 function Dashboard() {
+  const {
+    data: workspaces,
+    isLoading,
+    isError,
+  } = useQuery({
+    queryKey: ["workspace"],
+    queryFn: getAllWorkspace,
+  });
+
+  if (isLoading || isError) return;
+
+  console.log(workspaces);
   return (
     <>
       <div className="w-full h-full flex flex-col gap-8 ">
@@ -31,15 +46,14 @@ function Dashboard() {
             <div className="w-full bg-[#FAFBFD] rounded-xl p-3">
               <h1 className="text-xl h-8 w-32">Workspaces</h1>
               <div className="flex gap-2 flex-wrap">
-                <WorkspaceCard />
-                <WorkspaceCard />
-                <WorkspaceCard />
-                <WorkspaceCard />
+                {workspaces.map((workspace: WorkspaceProps) => (
+                  <WorkspaceCard title={workspace.title} key={workspace.id} />
+                ))}
               </div>
             </div>
             <div className="w-full bg-[#FAFBFD] rounded-xl p-3">
               <h1 className="text-xl h-8 w-32">Recents</h1>
-              <div className="flex gap-5 flex-wrap">
+              <div className="flex gap-2 flex-wrap">
                 <RecentCard
                   title={"Calendrier"}
                   icon={<Calendar className="w-4 h-4" />}

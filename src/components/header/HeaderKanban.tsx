@@ -4,6 +4,7 @@ import { Input } from "../ui/input";
 import { useQuery } from "@tanstack/react-query";
 import { useParams } from "react-router-dom";
 import { getSpecificWorkspace } from "@/lib/workspace.request";
+import { useEffect, useRef } from "react";
 
 function HeaderKanban() {
   const { workspaceId } = useParams();
@@ -15,6 +16,14 @@ function HeaderKanban() {
     queryKey: ["workspace", workspaceId],
     queryFn: () => getSpecificWorkspace(Number(workspaceId)),
   });
+
+  const startFocus = useRef<HTMLButtonElement>(null);
+
+  useEffect(() => {
+    if (startFocus.current) {
+      startFocus.current.focus();
+    }
+  }, []);
 
   if (workspaceError || workspaceLoading)
     return <div>workspace non trouvé...</div>;
@@ -30,7 +39,10 @@ function HeaderKanban() {
       </div>
       <div className="flex w-full justify-between">
         <div className="grid gap-3 grid-cols-6 ">
-          <button className="text-sm px-1 py-2 m-0  focus:bg-selectionButton focus:text-white rounded-xl">
+          <button
+            ref={startFocus}
+            className="text-sm px-1 py-2 m-0  focus:bg-selectionButton focus:text-white rounded-xl"
+          >
             Tout
           </button>
           <button className="text-sm px-1 py-2 m-0 focus:bg-selectionButton focus:text-white rounded-xl">

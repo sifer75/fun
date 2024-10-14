@@ -13,8 +13,8 @@ export const createTask = async (data: TaskProps) => {
   return response.json();
 };
 
-export const getAllTask = async (kanbanId: number) => {
-  const response = await fetch(`http://localhost:3333/task/get/${kanbanId}`, {
+export const getAllTask = async (elementId: number) => {
+  const response = await fetch(`http://localhost:3333/task/get/${elementId}`, {
     method: "GET",
     headers: { "Content-Type": "application/json" },
     credentials: "include",
@@ -25,12 +25,12 @@ export const getAllTask = async (kanbanId: number) => {
   return response.json();
 };
 
-export const updateTask = async (data: TaskProps) => {
+export const updateTask = async (data: TaskProps, status: string) => {
   const { id, title, description } = data;
   const response = await fetch(`http://localhost:3333/task/update/${id}`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ title, description }),
+    body: JSON.stringify({ title, description, status }),
     credentials: "include",
   });
   if (!response.ok) {

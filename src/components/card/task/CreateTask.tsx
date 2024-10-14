@@ -31,7 +31,7 @@ function CreateTask({ ...props }) {
     },
     onSuccess: async () => {
       queryClient.invalidateQueries({
-        queryKey: ["task", elementId],
+        queryKey: ["task"],
       });
       setIsDialogOpen(false);
     },

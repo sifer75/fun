@@ -17,10 +17,11 @@ function DndColumn({
   id: string;
 }) {
   const { setNodeRef } = useDroppable({ id });
-
   return (
     <SortableContext
-      items={columnTasks.map((task) => task.id)}
+      items={columnTasks
+        .map((task) => task.id)
+        .filter((id): id is string => id !== undefined)}
       strategy={verticalListSortingStrategy}
     >
       <div
@@ -39,7 +40,7 @@ function DndColumn({
 
         <div className="h-full w-fit flex flex-col gap-3 rounded-xl">
           {columnTasks.map((task: TaskProps) => (
-            <TaskCard {...task} key={task.id} />
+            <TaskCard {...task} key={task.id} id={task.id} />
           ))}
         </div>
       </div>
