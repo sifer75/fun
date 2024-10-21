@@ -22,3 +22,10 @@ export interface TaskProps {
   from?: string;
   to?: string;
 }
+
+export interface DateProps {
+  from: string;
+  to: string;
+  startTime: string;
+  endTime: string;
+}

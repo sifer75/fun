@@ -1,13 +1,10 @@
-import AgendaCard from "@/components/card/dashboard/AgendaCard";
 import RecentCard from "@/components/card/dashboard/RecentCard";
 import WorkspaceCard from "@/components/card/dashboard/WorkspaceCard";
 import { WorkspaceProps } from "@/lib/cards.utils";
 import { getAllWorkspace } from "@/lib/workspace.request";
 import { useQuery } from "@tanstack/react-query";
+import Agenda from "@/components/card/dashboard/Agenda";
 import {
-  Plus,
-  ArrowLeft,
-  ArrowRight,
   Calendar,
   NavArrowRight,
   Page,
@@ -28,6 +25,32 @@ function Dashboard() {
   if (isLoading || isError) return;
 
   console.log(workspaces);
+
+  const recent = [
+    "Calendrier",
+    "Presentation",
+    "Document",
+    "Tableau",
+    "Liste de tâches",
+    "excalidraw",
+  ] as const;
+
+  const getIcons = (title: string) => {
+    switch (title) {
+      case "Calendrier":
+        return <Calendar className="w-4 h-4" />;
+      case "Presentation":
+        return <NavArrowRight className="w-4 h-4" />;
+      case "Document":
+        return <Page className="w-4 h-4" />;
+      case "Tableau":
+        return <Presentation className="w-4 h-4" />;
+      case "Liste de tâches":
+        return <Table2Columns className="w-4 h-4" />;
+      case "excalidraw":
+        return <TaskList className="w-4 h-4" />;
+    }
+  };
   return (
     <>
       <div className="w-full h-full flex flex-col gap-8 ">
@@ -54,48 +77,13 @@ function Dashboard() {
             <div className="w-full bg-[#FAFBFD] rounded-xl p-3">
               <h1 className="text-xl h-8 w-32">Recents</h1>
               <div className="flex gap-2 flex-wrap">
-                <RecentCard
-                  title={"Calendrier"}
-                  icon={<Calendar className="w-4 h-4" />}
-                />
-                <RecentCard
-                  title={"Presentation"}
-                  icon={<Presentation className="w-4 h-4" />}
-                />
-                <RecentCard
-                  title={"Document"}
-                  icon={<Page className="w-4 h-4" />}
-                />
-                <RecentCard
-                  title={"Tableau"}
-                  icon={<Table2Columns className="w-4 h-4" />}
-                />
-                <RecentCard
-                  title={"Liste de tâches"}
-                  icon={<TaskList className="w-4 h-4" />}
-                />
-                <RecentCard
-                  title={"Excalidraw"}
-                  icon={<NavArrowRight className="w-4 h-4" />}
-                />
+                {recent.map((title: string) => (
+                  <RecentCard title={title} icon={getIcons(title)} />
+                ))}
               </div>
             </div>
           </div>
-          <div className="bg-[#FAFBFD] min-w-[340px] flex flex-col gap-5 rounded-xl p-3">
-            <div className="flex items-center justify-between min-w-max">
-              <div className="flex gap-2.5 items-center">
-                <p className="font-bold">Vendredi 3 Mars 2024</p>
-                <div className="w-10 flex justify-between">
-                  <ArrowLeft className="w-3 h-3" />
-                  <ArrowRight className="w-3 h-3" />
-                </div>
-              </div>
-              <Plus className="w-4 h-4" />
-            </div>
-            <AgendaCard />
-            <AgendaCard />
-            <AgendaCard />
-          </div>
+          <Agenda />
         </div>
       </div>
     </>
