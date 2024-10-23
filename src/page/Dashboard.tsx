@@ -4,6 +4,7 @@ import { WorkspaceProps } from "@/lib/cards.utils";
 import { getAllWorkspace } from "@/lib/workspace.request";
 import { useQuery } from "@tanstack/react-query";
 import Agenda from "@/components/card/dashboard/Agenda";
+import { colors, recent } from "../lib/dashboard.utils";
 import {
   Calendar,
   NavArrowRight,
@@ -23,15 +24,6 @@ function Dashboard() {
   });
 
   if (isLoading || isError) return;
-
-  const recent = [
-    "Calendrier",
-    "Presentation",
-    "Document",
-    "Tableau",
-    "Liste de tâches",
-    "excalidraw",
-  ] as const;
 
   const getIcons = (title: string) => {
     switch (title) {
@@ -63,12 +55,16 @@ function Dashboard() {
           </p>
         </div>
         <div className="w-full h-full flex gap-5">
-          <div className="w-2/3 flex flex-col gap-6 h-full">
+          <div className="w-fit flex flex-col gap-6 h-full">
             <div className="w-full bg-[#FAFBFD] rounded-xl p-3 h-fit">
               <h1 className="text-xl h-8 w-32">Workspaces</h1>
               <div className="flex gap-2 flex-wrap">
-                {workspaces.map((workspace: WorkspaceProps) => (
-                  <WorkspaceCard title={workspace.title} key={workspace.id} />
+                {workspaces.map((workspace: WorkspaceProps, index: number) => (
+                  <WorkspaceCard
+                    title={workspace.title}
+                    key={index}
+                    color={colors[index % colors.length]}
+                  />
                 ))}
               </div>
             </div>

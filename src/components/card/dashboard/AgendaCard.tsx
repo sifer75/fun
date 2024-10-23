@@ -1,14 +1,16 @@
-import { TicketX } from "lucide-react";
 import Decoration from "./Decoration";
 import { MissionProps } from "@/lib/cards.utils";
+import Fusee from "../../../assets/fusee.jpg";
 
 function AgendaCard({ title, tasks, timeFrom, timeTo }: MissionProps) {
   return (
     <div className="bg-[#4F894A]/40 w-full rounded-lg flex items-start gap-2.5 p-5">
       <div className="flex gap-3 w-full">
-        <div className="min-w-8 h-8 flex justify-center bg-white items-center rounded border border-[#D9D9D9]">
-          <TicketX />
-        </div>
+        <img
+          src={Fusee}
+          alt="fusee"
+          className="min-w-8 h-8 flex justify-center bg-white items-center rounded border border-[#D9D9D9]"
+        />
         <div className="min-w-max w-full flex flex-col gap-2.5">
           <div className="text-sm min-w-full h-8 flex items-center justify-start font-bold">
             {title}

@@ -13,7 +13,6 @@ import { Label } from "@/components/ui/label";
 import { Plus, ArrowLeft, ArrowRight } from "iconoir-react";
 import DateTask from "@/components/card/task/DateTask";
 import { useState } from "react";
-import { DateRange } from "react-day-picker";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { MissionProps } from "@/lib/cards.utils";
 import AgendaMission from "./AgendaMission";
@@ -29,18 +28,31 @@ function Agenda() {
     from: "",
     to: "",
   });
-  const [date, setDate] = useState<DateRange | undefined>({
-    from: new Date(),
-    to: new Date(),
-  });
-
+  const [date, setDate] = useState<Date | undefined>(new Date());
+  const [fetchedDate, setFetchedate] = useState<Date | undefined>(new Date());
   const getFormatedDate = () => {
-    const today = new Date();
-    return today.toLocaleDateString("fr-FR", {
+    if (!fetchedDate) return;
+    return fetchedDate.toLocaleDateString("fr-FR", {
       weekday: "long",
       month: "long",
       day: "numeric",
     });
+  };
+
+  const handlePreviousDay = () => {
+    if (fetchedDate) {
+      const previousDate = new Date(fetchedDate);
+      previousDate.setDate(previousDate.getDate() - 1);
+      setFetchedate(previousDate);
+    }
+  };
+
+  const handleNextDay = () => {
+    if (fetchedDate) {
+      const nextDate = new Date(fetchedDate);
+      nextDate.setDate(nextDate.getDate() + 1);
+      setFetchedate(nextDate);
+    }
   };
 
   const mutation = useMutation({
@@ -51,14 +63,15 @@ function Agenda() {
     onSuccess: async () => {
       queryClient.invalidateQueries({ queryKey: ["task"] });
       setOpen(false);
+      setTitle("");
+      setTasks("");
     },
   });
 
   const handleSubmit = () => {
-    if (date?.from && date?.to) {
+    if (date) {
       const data = {
-        dateFrom: date.from.toISOString(),
-        dateTo: date.to.toISOString(),
+        date: date.toISOString().split("T")[0],
         timeFrom: time.from,
         timeTo: time.to,
         title,
@@ -69,13 +82,19 @@ function Agenda() {
   };
 
   return (
-    <div className="w-fit h-full gap-5 rounded-xl p-3 bg-[#FAFBFD]">
+    <div className="w-1/3 h-full gap-5 rounded-xl p-3 bg-[#FAFBFD]">
       <div className="flex items-center justify-between w-full">
         <div className="flex gap-2.5 items-center w-fit">
           <p className="font-bold truncate w-max">{getFormatedDate()}</p>
           <div className="w-10 flex justify-between">
-            <ArrowLeft className="w-4 h-4 hover:shadow-2xl hover:scale-125 hover:border hover:border-black rounded-sm" />
-            <ArrowRight className="w-4 h-4 hover:shadow-2xl hover:scale-125 hover:border hover:border-black rounded-sm" />
+            <ArrowLeft
+              className="w-4 h-4 hover:shadow-2xl hover:scale-125 hover:border hover:border-black rounded-sm"
+              onClick={handlePreviousDay}
+            />
+            <ArrowRight
+              className="w-4 h-4 hover:shadow-2xl hover:scale-125 hover:border hover:border-black rounded-sm"
+              onClick={handleNextDay}
+            />
           </div>
         </div>
 
@@ -161,7 +180,7 @@ function Agenda() {
           </DialogContent>
         </Dialog>
       </div>
-      <AgendaMission />
+      <AgendaMission fetchedDate={fetchedDate} />
     </div>
   );
 }

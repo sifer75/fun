@@ -25,8 +25,7 @@ export interface TaskProps {
 
 export interface MissionProps {
   id?: string;
-  dateFrom?: string;
-  dateTo?: string;
+  date?: string;
   timeFrom: string;
   timeTo: string;
   title: string;

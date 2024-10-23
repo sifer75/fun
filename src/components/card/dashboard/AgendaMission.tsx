@@ -3,18 +3,17 @@ import AgendaCard from "./AgendaCard";
 import { getAllMissionsFromDate } from "@/lib/mission.request";
 import { MissionProps } from "@/lib/cards.utils";
 
-function AgendaMission() {
+function AgendaMission({ fetchedDate }: { fetchedDate: Date | undefined }) {
   const {
     data: missions = [],
     isError,
     isLoading,
   } = useQuery({
-    queryKey: ["mission"],
-    queryFn: getAllMissionsFromDate,
+    queryKey: ["mission", fetchedDate],
+    queryFn: () => getAllMissionsFromDate(fetchedDate),
   });
 
   if (isError || isLoading) return <div>missions non trouvé</div>;
-  console.log(missions, "missions");
 
   return (
     <div className="overflow-y-scroll w-full h-full flex flex-col gap-5 rounded-xl p-3">

@@ -14,7 +14,6 @@ function RecentCard({ title, icon }: { title: string; icon: ReactNode }) {
       <div className="w-full flex justify-between">
         <div className="flex items-center gap-2 text-white">
           <MoveUpRight className="w-4 h-4" />
-          <p className="text-sm">2</p>
         </div>
         <div className="w-4 h-4 rounded-full flex items-center justify-center bg-[#D9D9D9]/20">
           <Expand className="w-3 h-3" />

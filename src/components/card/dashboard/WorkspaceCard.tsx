@@ -1,9 +1,11 @@
 import { ArrowUpRight, Suggestion } from "iconoir-react";
 import Decoration from "./Decoration";
 
-function WorkspaceCard({ title }: { title: string }) {
+function WorkspaceCard({ title, color }: { title: string; color: string }) {
   return (
-    <div className="bg-blue-400 min-w-[248px] flex flex-col p-3 rounded-xl gap-1">
+    <div
+      className={`min-w-[248px] flex flex-col p-3 rounded-xl gap-1 ${color}`}
+    >
       <div className="flex">
         <div className="text-white flex flex-col gap-3 w-full">
           <p className="font-bold">{title}</p>

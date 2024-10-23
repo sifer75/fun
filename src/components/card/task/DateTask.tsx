@@ -7,17 +7,21 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import React from "react";
-import { DateRange } from "react-day-picker";
+import React, { useState } from "react";
 
 interface DateTaskProps {
-  date: DateRange | undefined;
-  setDate: (date: DateRange | undefined) => void;
+  date: Date | undefined;
+  setDate: (date: Date | undefined) => void;
 }
 const DateTask = React.forwardRef<HTMLButtonElement, DateTaskProps>(
   ({ date, setDate }, ref) => {
+    const [open, setOpen] = useState<boolean>(false);
+    const handleDateSelected = (selectedDate: Date | undefined) => {
+      setDate(selectedDate);
+      setOpen(false);
+    };
     return (
-      <Popover>
+      <Popover open={open} onOpenChange={setOpen}>
         <PopoverTrigger asChild>
           <Button
             id="date"
@@ -27,29 +31,19 @@ const DateTask = React.forwardRef<HTMLButtonElement, DateTaskProps>(
               !date && "text-muted-foreground"
             )}
             ref={ref}
+            onClick={() => setOpen(true)}
           >
-            {date?.from ? (
-              date.to ? (
-                <>
-                  {format(date.from, "LLL dd, y")} -{" "}
-                  {format(date.to, "LLL dd, y")}
-                </>
-              ) : (
-                format(date.from, "LLL dd, y")
-              )
-            ) : (
-              <span>Pick a date</span>
-            )}
+            <p className="text-[#71717A]">
+              {date ? format(date, "dd/MM/yyyy") : "choisis une date"}
+            </p>
           </Button>
         </PopoverTrigger>
         <PopoverContent className="w-auto p-0" align="start">
           <Calendar
-            initialFocus
-            mode="range"
-            defaultMonth={date?.from}
+            mode="single"
             selected={date}
-            onSelect={setDate}
-            numberOfMonths={2}
+            onSelect={handleDateSelected}
+            className="rounded-md border shadow"
           />
         </PopoverContent>
       </Popover>
