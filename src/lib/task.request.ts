@@ -1,4 +1,4 @@
-import { DateProps, TaskProps } from "./cards.utils";
+import { TaskProps } from "./cards.utils";
 
 export const createTask = async (data: TaskProps) => {
   const response = await fetch("http://localhost:3333/task/create", {
@@ -71,21 +71,6 @@ export const updateTaskStatus = async ({
     throw new Error(
       `Erreur lors de la modification du status de la tâche ${id}`
     );
-  }
-  return response.json();
-};
-
-export const CreateMission = async (data: DateProps) => {
-  const { from, to, endTime, startTime } = data;
-  const response = await fetch(`http://localhost:3333/date/create`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ from, to, startTime, endTime }),
-    credentials: "include",
-  });
-
-  if (!response.ok) {
-    throw new Error(`Erreur lors de la création de la mission`);
   }
   return response.json();
 };

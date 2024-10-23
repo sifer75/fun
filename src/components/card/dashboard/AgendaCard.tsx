@@ -1,7 +1,8 @@
 import { TicketX } from "lucide-react";
 import Decoration from "./Decoration";
+import { MissionProps } from "@/lib/cards.utils";
 
-function AgendaCard() {
+function AgendaCard({ title, tasks, timeFrom, timeTo }: MissionProps) {
   return (
     <div className="bg-[#4F894A]/40 w-full rounded-lg flex items-start gap-2.5 p-5">
       <div className="flex gap-3 w-full">
@@ -10,19 +11,17 @@ function AgendaCard() {
         </div>
         <div className="min-w-max w-full flex flex-col gap-2.5">
           <div className="text-sm min-w-full h-8 flex items-center justify-start font-bold">
-            Wake up
+            {title}
           </div>
-          <ul className="list-disc text-sm text-[#71717A] pl-5">
-            <li>Squat 10 x 3</li>
-            <li>Push up 10 x 3</li>
-            <li>Abdos 10 x 3</li>
+          <ul className="list-disc text-sm min-w-full text-[#71717A] pl-5">
+            <li>{tasks}</li>
           </ul>
           <Decoration style={"w-9 h-9 text-sm"} margin={"-ml-4"} />
         </div>
-      </div>
-      <div className="min-w-fit">
-        <p className="text-sm">8:30 AM</p>
-        <p className="text-sm">8:00 AM</p>
+        <div className="min-w-12 flex flex-col items-end">
+          <p className="text-sm w-fit">{timeFrom} AM</p>
+          <p className="text-sm w-fit">{timeTo} AM</p>
+        </div>
       </div>
     </div>
   );

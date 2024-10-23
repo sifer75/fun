@@ -23,9 +23,12 @@ export interface TaskProps {
   to?: string;
 }
 
-export interface DateProps {
-  from: string;
-  to: string;
-  startTime: string;
-  endTime: string;
+export interface MissionProps {
+  id?: string;
+  dateFrom?: string;
+  dateTo?: string;
+  timeFrom: string;
+  timeTo: string;
+  title: string;
+  tasks: string;
 }

@@ -24,8 +24,6 @@ function Dashboard() {
 
   if (isLoading || isError) return;
 
-  console.log(workspaces);
-
   const recent = [
     "Calendrier",
     "Presentation",
@@ -65,8 +63,8 @@ function Dashboard() {
           </p>
         </div>
         <div className="w-full h-full flex gap-5">
-          <div className="w-2/3 flex flex-col gap-6">
-            <div className="w-full bg-[#FAFBFD] rounded-xl p-3">
+          <div className="w-2/3 flex flex-col gap-6 h-full">
+            <div className="w-full bg-[#FAFBFD] rounded-xl p-3 h-fit">
               <h1 className="text-xl h-8 w-32">Workspaces</h1>
               <div className="flex gap-2 flex-wrap">
                 {workspaces.map((workspace: WorkspaceProps) => (
@@ -78,7 +76,11 @@ function Dashboard() {
               <h1 className="text-xl h-8 w-32">Recents</h1>
               <div className="flex gap-2 flex-wrap">
                 {recent.map((title: string) => (
-                  <RecentCard title={title} icon={getIcons(title)} />
+                  <RecentCard
+                    title={title}
+                    icon={getIcons(title)}
+                    key={title}
+                  />
                 ))}
               </div>
             </div>
